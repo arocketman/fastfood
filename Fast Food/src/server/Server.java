@@ -2,8 +2,11 @@ package server;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.util.ArrayList;
 
 import server.coordinator.IngressoController;
+import server.database.PostoDBWrapper;
+import server.database.TavoloDBWrapper;
 import server.entity.Posto;
 import server.entity.Tavolo;
 import server.proxy.ServerProxyManager;
@@ -13,10 +16,11 @@ public class Server {
 	public static IngressoController ic = new IngressoController();
 	
 	public static void main(String[] args) throws RemoteException {
-		Server.inserisciDatiProva();
+		//Server.inserisciDatiProvaDB();
 		
 		//avvia il registry sul porto 1099 (default)
 		LocateRegistry.createRegistry(1099);
+		Server.loadFromDB();
 		
 		//inizializza i servizi offerti
 		ServerProxyManager lServerProxyManager = new ServerProxyManager();
@@ -48,5 +52,59 @@ public class Server {
 		ic.gestoreTavoli.aggiungiTavolo(t1);
 		ic.gestoreTavoli.aggiungiTavolo(t2);
 	
+	}
+	
+	public static void loadFromDB(){
+		
+		for(Tavolo t : loadTavoli())
+			ic.gestoreTavoli.aggiungiTavolo(t);
+		
+		
+
+		System.out.println("gh");
+	}
+	
+	public static ArrayList<Tavolo> loadTavoli(){
+		ArrayList<Tavolo> tavoli = new ArrayList<Tavolo>();
+		
+		ArrayList<TavoloDBWrapper> tavoliDBWrapper = TavoloDBWrapper.findAll();
+		for(TavoloDBWrapper tavoloDBWrapper : tavoliDBWrapper){
+			Tavolo tavolo = new Tavolo();
+			tavolo.setNumero(tavoloDBWrapper.getNumero());
+			
+			//Recupero i posti
+			ArrayList<PostoDBWrapper> postiDBWrapper = (ArrayList<PostoDBWrapper>) tavoloDBWrapper.getPosti();
+			for(PostoDBWrapper postoDBWrapper : postiDBWrapper){
+				Posto posto = new Posto(postoDBWrapper.getCodice(),tavolo);
+				tavolo.aggiungiPosti(posto);
+			}
+			tavoli.add(tavolo);
+		}
+		return tavoli;
+	}
+	
+	public static void inserisciDatiProvaDB(){
+		Tavolo t1 = new Tavolo();
+		Posto p1 = new Posto("AAAA",t1);
+		Posto p2 = new Posto("BBBB",t1);
+		Posto p3 = new Posto("CCCC",t1);
+
+		t1.aggiungiPosti(p1,p2,p3);
+		t1.salva();
+		p1.salva();
+		p2.salva();
+		p3.salva();
+		
+		Tavolo t2 = new Tavolo();
+		Posto pp1 = new Posto("DDDD",t2);
+		Posto pp2 = new Posto("EEEE",t2);
+		Posto pp3 = new Posto("FFFF",t2);
+
+		t2.aggiungiPosti(pp1,pp2,pp3);
+		t2.salva();
+		pp1.salva();
+		pp2.salva();
+		pp3.salva();
+		
 	}
 }

@@ -1,9 +1,13 @@
 package server.database;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,13 +15,15 @@ import org.hibernate.SessionFactory;
 import server.database.util.HibernateUtil;
 import server.entity.Posto;
 
+@Entity
+@Table(name = "assegnazione")
 public class AssegnazioneDBWrapper {
 	
 	@Id
 	String codiceAssegnazionePosti;
 	
-	@OneToMany(mappedBy="assegnazione")
-	ArrayList<Posto> Posti;
+	@OneToMany(mappedBy="assegnazione",fetch = FetchType.EAGER)
+	List<PostoDBWrapper> Posti;
 
 	public AssegnazioneDBWrapper(String codice) {
 		AssegnazioneDBWrapper wrapper = this.findByPrimaryKey(codice);
@@ -74,11 +80,11 @@ public class AssegnazioneDBWrapper {
 		this.codiceAssegnazionePosti = codiceAssegnazionePosti;
 	}
 
-	public ArrayList<Posto> getPosti() {
+	public List<PostoDBWrapper> getPosti() {
 		return Posti;
 	}
 
-	public void setPosti(ArrayList<Posto> posti) {
+	public void setPosti(ArrayList<PostoDBWrapper> posti) {
 		Posti = posti;
 	}
 	

@@ -23,7 +23,7 @@ public class Assegnazione implements Serializable {
 	public Assegnazione(String codiceAssegnazionePosti) {
 		AssegnazioneDBWrapper dbWrapper = new AssegnazioneDBWrapper(codiceAssegnazionePosti);
 		this.codiceAssegnazionePosti = dbWrapper.getCodiceAssegnazionePosti();
-		this.Posti = dbWrapper.getPosti();
+		//this.Posti = (ArrayList<Posto>) dbWrapper.getPosti();
 	}
 
 	public String getCodiceAssegnazionePosti() {

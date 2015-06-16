@@ -1,15 +1,19 @@
 package server.database;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import server.database.util.HibernateUtil;
 
+@Entity
+@Table(name="Posto")
 public class PostoDBWrapper {
 		
 	@Id

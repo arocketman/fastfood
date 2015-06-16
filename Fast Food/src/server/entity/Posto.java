@@ -131,7 +131,9 @@ public class Posto implements Serializable {
 	
 	public Posto salva(){
 		PostoDBWrapper dbWrapper = new PostoDBWrapper();
-		dbWrapper.setAssegnazione(new AssegnazioneDBWrapper(this.assegnazione.getCodiceAssegnazionePosti()));
+		if(this.assegnazione != null)
+			dbWrapper.setAssegnazione(new AssegnazioneDBWrapper(this.assegnazione.getCodiceAssegnazionePosti()));
+		
 		dbWrapper.setCodice(this.codice);
 		dbWrapper.setStato(getStatoString());
 		dbWrapper.setTavolo(new TavoloDBWrapper(this.getTavolo().getNumero()));

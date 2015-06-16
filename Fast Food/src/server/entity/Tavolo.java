@@ -19,9 +19,12 @@ public class Tavolo implements Serializable{
 	public Tavolo(int numero){
 		TavoloDBWrapper dbWrapper = new TavoloDBWrapper(numero);
 		this.numero = dbWrapper.getNumero();
-		posti = dbWrapper.getPosti();
 	}
 	
+	public Tavolo() {
+		posti = new ArrayList<Posto>();
+	}
+
 	public void aggiungiPosto(Posto posto){
 		posti.add(posto);
 	}
@@ -54,8 +57,5 @@ public class Tavolo implements Serializable{
 		this.numero = dbWrapper.getNumero();
 		return this;
 	}
-	
-	
-	
-	
+		
 }

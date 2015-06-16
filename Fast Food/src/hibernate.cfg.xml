@@ -28,11 +28,8 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <!-- Entity -->
-        <mapping class="it.albergo.server.database.BadgeAddettoDBWrapper" />
-        <mapping class="it.albergo.server.database.BadgeClienteDBWrapper" />
-        <mapping class="it.albergo.server.database.CameraDBWrapper" />
-        <mapping class="it.albergo.server.database.PrenotazioneDBWrapper" />
-        <mapping class="it.albergo.server.database.AccessoDBWrapper" />
-        <mapping class="it.albergo.server.database.ServizioDBWrapper" />
+        <mapping class="server.database.PostoDBWrapper" />
+        <mapping class="server.database.AssegnazioneDBWrapper" />
+        <mapping class="server.database.TavoloDBWrapper" />
     </session-factory>
 </hibernate-configuration>
