@@ -16,7 +16,7 @@ import server.database.util.HibernateUtil;
 import server.entity.Posto;
 
 @Entity
-@Table(name = "assegnazione")
+@Table(name = "Assegnazione")
 public class AssegnazioneDBWrapper {
 	
 	@Id

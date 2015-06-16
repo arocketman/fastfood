@@ -142,6 +142,18 @@ public class Posto implements Serializable {
 		
 	}
 	
+	public Posto update() {
+		PostoDBWrapper PostoDB = new PostoDBWrapper();
+
+		PostoDB.setCodice(codice);
+		PostoDB.setAssegnazione(new AssegnazioneDBWrapper(this.assegnazione.codiceAssegnazionePosti));
+		PostoDB.setStato(getStatoString());
+		PostoDB.setTavolo(new TavoloDBWrapper(this.tavolo.getNumero()));
+		PostoDB.update();
+		
+		return this;
+	}
+	
 	public String getStatoString(){
 		if(isLibero()) return "libero";
 		else if(isOccupato()) return "occupato";

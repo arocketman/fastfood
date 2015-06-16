@@ -21,7 +21,7 @@ public class PostoDBWrapper {
 	
 	@ManyToOne
 	@JoinColumn(name = "numero_tavolo")
-	private TavoloDBWrapper tavolo;
+	private TavoloDBWrapper tavoloPosti;
 	
 	@ManyToOne
 	@JoinColumn(name = "codice_assegnazione")
@@ -35,7 +35,7 @@ public class PostoDBWrapper {
 		PostoDBWrapper wrapper = this.findByPrimaryKey(codice);
 		if (wrapper != null) {
 			this.codice = codice;
-			this.tavolo = wrapper.getTavolo();
+			this.tavoloPosti = wrapper.getTavolo();
 			this.assegnazione = wrapper.getAssegnazione();
 			this.stato = wrapper.getStato();
 		} else {
@@ -69,9 +69,24 @@ public class PostoDBWrapper {
 		Session session = sf.openSession();
 		session.beginTransaction();
 
-		//salvo il cliente
+		//salvo il posto
 		String codice = (String) session.save(this);
 		this.setCodice(codice);
+		
+		//chiudo la transazione e la sessione
+		session.getTransaction().commit();		
+		session.close();
+		
+		return this;
+	}
+	
+	public PostoDBWrapper update() {
+		//apro la sessione e la transazione
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+
+		session.update(this);
 		
 		//chiudo la transazione e la sessione
 		session.getTransaction().commit();		
@@ -89,11 +104,11 @@ public class PostoDBWrapper {
 	}
 
 	public TavoloDBWrapper getTavolo() {
-		return tavolo;
+		return tavoloPosti;
 	}
 
 	public void setTavolo(TavoloDBWrapper tavolo) {
-		this.tavolo = tavolo;
+		this.tavoloPosti = tavolo;
 	}
 
 	public AssegnazioneDBWrapper getAssegnazione() {

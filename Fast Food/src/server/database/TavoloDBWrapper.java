@@ -19,14 +19,14 @@ import server.database.util.HibernateUtil;
 import server.entity.Posto;
 
 @Entity
-@Table(name = "tavolo")
+@Table(name = "Tavolo")
 public class TavoloDBWrapper {
 	
 	@Id
 	@GeneratedValue
 	private int numero;
 	
-	@OneToMany(mappedBy = "tavolo",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "tavoloPosti",fetch = FetchType.EAGER)
 	private List<PostoDBWrapper> posti;
 
 	public TavoloDBWrapper(int numero) {

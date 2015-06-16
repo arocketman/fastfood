@@ -15,8 +15,10 @@ public class Assegnazione implements Serializable {
 	public Assegnazione(String codiceAssegnazionePosti, ArrayList<Posto> posti) {
 		this.codiceAssegnazionePosti = codiceAssegnazionePosti;
 		Posti = posti;
+		this.salva();
 		for(Posto p : posti){
 			p.assegnaPosto(this);
+			p.update();
 		}
 	}
 

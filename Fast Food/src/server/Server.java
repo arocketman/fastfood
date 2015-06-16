@@ -16,11 +16,11 @@ public class Server {
 	public static IngressoController ic = new IngressoController();
 	
 	public static void main(String[] args) throws RemoteException {
-		//Server.inserisciDatiProvaDB();
+		Server.inserisciDatiProvaDB();
 		
 		//avvia il registry sul porto 1099 (default)
 		LocateRegistry.createRegistry(1099);
-		Server.loadFromDB();
+		//Server.loadFromDB();
 		
 		//inizializza i servizi offerti
 		ServerProxyManager lServerProxyManager = new ServerProxyManager();
@@ -55,13 +55,8 @@ public class Server {
 	}
 	
 	public static void loadFromDB(){
-		
 		for(Tavolo t : loadTavoli())
 			ic.gestoreTavoli.aggiungiTavolo(t);
-		
-		
-
-		System.out.println("gh");
 	}
 	
 	public static ArrayList<Tavolo> loadTavoli(){
@@ -88,6 +83,8 @@ public class Server {
 		Posto p1 = new Posto("AAAA",t1);
 		Posto p2 = new Posto("BBBB",t1);
 		Posto p3 = new Posto("CCCC",t1);
+		
+		ic.gestoreTavoli.aggiungiTavolo(t1);
 
 		t1.aggiungiPosti(p1,p2,p3);
 		t1.salva();
@@ -105,6 +102,11 @@ public class Server {
 		pp1.salva();
 		pp2.salva();
 		pp3.salva();
+		
+
+		ic.gestoreTavoli.aggiungiTavolo(t2);
+		
+		
 		
 	}
 }
