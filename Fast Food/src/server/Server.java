@@ -83,30 +83,32 @@ public class Server {
 		Posto p1 = new Posto("AAAA",t1);
 		Posto p2 = new Posto("BBBB",t1);
 		Posto p3 = new Posto("CCCC",t1);
+		Posto p4 = new Posto("DDDD",t1);
 		
 		ic.gestoreTavoli.aggiungiTavolo(t1);
 
-		t1.aggiungiPosti(p1,p2,p3);
+		t1.aggiungiPosti(p1,p2,p3,p4);
 		t1.salva();
 		p1.salva();
 		p2.salva();
 		p3.salva();
+		p4.salva();
 		
 		Tavolo t2 = new Tavolo();
-		Posto pp1 = new Posto("DDDD",t2);
-		Posto pp2 = new Posto("EEEE",t2);
-		Posto pp3 = new Posto("FFFF",t2);
+		Posto pp1 = new Posto("EEEE",t2);
+		Posto pp2 = new Posto("FFFF",t2);
+		Posto pp3 = new Posto("GGGG",t2);
+		Posto pp4 = new Posto("HHHH",t2);
 
-		t2.aggiungiPosti(pp1,pp2,pp3);
+		t2.aggiungiPosti(pp1,pp2,pp3,pp4);
 		t2.salva();
 		pp1.salva();
 		pp2.salva();
 		pp3.salva();
+		pp4.salva();
 		
 
-		ic.gestoreTavoli.aggiungiTavolo(t2);
-		
-		
+		ic.gestoreTavoli.aggiungiTavolo(t2);		
 		
 	}
 }

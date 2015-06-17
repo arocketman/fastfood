@@ -68,7 +68,7 @@ public class PrenotazioneBoundary {
 		btnInserisciPrenotazione.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				IngressoBusinessLogic ingressoBusinessLogic = new IngressoBusinessLogic();
-				if(ingressoBusinessLogic.inserisciPrenotazione(textFieldCognome.getText(), textFieldCognome.getText(), numPosti)){
+				if(ingressoBusinessLogic.inserisciPrenotazione(textFieldCognome.getText(), textFieldTelefono.getText(), numPosti)){
 					JLabel lblOkayPrenotazione = new JLabel("Prenotazione effettuata ");
 					lblOkayPrenotazione.setAlignmentX(Component.CENTER_ALIGNMENT);
 					frame.getContentPane().add(lblOkayPrenotazione);

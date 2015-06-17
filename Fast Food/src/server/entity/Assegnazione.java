@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import server.database.AssegnazioneDBWrapper;
+import server.database.PrenotazioneDBWrapper;
 
 public class Assegnazione implements Serializable {
 	
@@ -11,6 +12,7 @@ public class Assegnazione implements Serializable {
 	
 	String codiceAssegnazionePosti;
 	ArrayList<Posto> Posti;
+	Prenotazione prenotazione;
 
 	public Assegnazione(String codiceAssegnazionePosti, ArrayList<Posto> posti) {
 		this.codiceAssegnazionePosti = codiceAssegnazionePosti;
@@ -24,8 +26,8 @@ public class Assegnazione implements Serializable {
 
 	public Assegnazione(String codiceAssegnazionePosti) {
 		AssegnazioneDBWrapper dbWrapper = new AssegnazioneDBWrapper(codiceAssegnazionePosti);
+		this.prenotazione = new Prenotazione(dbWrapper.getPrenotazione().getCodice());
 		this.codiceAssegnazionePosti = dbWrapper.getCodiceAssegnazionePosti();
-		//this.Posti = (ArrayList<Posto>) dbWrapper.getPosti();
 	}
 
 	public String getCodiceAssegnazionePosti() {
@@ -51,14 +53,27 @@ public class Assegnazione implements Serializable {
 	public Assegnazione salva(){
 		AssegnazioneDBWrapper dbWrapper = new AssegnazioneDBWrapper();
 		dbWrapper.setCodiceAssegnazionePosti(this.codiceAssegnazionePosti);
+		if(this.prenotazione != null)
+			dbWrapper.setPrenotazione(new PrenotazioneDBWrapper(prenotazione.getCodice()));
 		dbWrapper.salva();
 		return this;
 	}
 
+	public Prenotazione getPrenotazione() {
+		return prenotazione;
+	}
 
-	
-	
-	
+	public void setPrenotazione(Prenotazione prenotazione) {
+		this.prenotazione = prenotazione;
+	}
 
+	public ArrayList<Posto> getPosti() {
+		return Posti;
+	}
+
+	public void setPosti(ArrayList<Posto> posti) {
+		Posti = posti;
+	}
+	
 	
 }

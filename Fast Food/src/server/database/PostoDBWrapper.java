@@ -13,7 +13,7 @@ import org.hibernate.SessionFactory;
 import server.database.util.HibernateUtil;
 
 @Entity
-@Table(name="Posto")
+@Table(name="Posti")
 public class PostoDBWrapper {
 		
 	@Id

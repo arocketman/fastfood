@@ -9,11 +9,17 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PostoBoundary {
 
 	private JFrame frame;
 	private JTextField textFieldCodiceAssegnazione;
+	
+	public static final int OKAY = 1;
+	public static final int ERRORE = -1;
+	public static final int PRENOTAZIONE = 2;
 
 	/**
 	 * Launch the application.
@@ -59,6 +65,11 @@ public class PostoBoundary {
 		textFieldCodiceAssegnazione.setColumns(10);
 		
 		JButton btnOccupaPosto = new JButton("Occupa Posto");
+		btnOccupaPosto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
 
 		btnOccupaPosto.setAlignmentX(Component.CENTER_ALIGNMENT);
 		frame.getContentPane().add(btnOccupaPosto);

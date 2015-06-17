@@ -15,8 +15,7 @@ public class GestorePrenotazioni {
 		String codiceAlfaNumerico = new BigInteger(130, random).toString(32).substring(0,5);
 		Prenotazione prenotazione = new Prenotazione(codiceAlfaNumerico,cognome,telefono,numPosti);
 		prenotazioni.add(prenotazione);
-		//return prenotazione.salve()
-		return true;
+		return prenotazione.salva() != null;
 		
 	}
 

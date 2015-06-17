@@ -6,7 +6,7 @@
     <session-factory>
         <!-- Connessione al database -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/accesso_camere</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/fast_food</property>
         
         <!-- Credenziali -->
         <property name="hibernate.connection.username">root</property>
@@ -30,6 +30,7 @@
         <!-- Entity -->
         <mapping class="server.database.PostoDBWrapper" />
         <mapping class="server.database.AssegnazioneDBWrapper" />
+        <mapping class="server.database.PrenotazioneDBWrapper" />
         <mapping class="server.database.TavoloDBWrapper" />
     </session-factory>
 </hibernate-configuration>

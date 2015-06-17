@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.Session;
@@ -16,7 +17,7 @@ import server.database.util.HibernateUtil;
 import server.entity.Posto;
 
 @Entity
-@Table(name = "Assegnazione")
+@Table(name = "Assegnazioni")
 public class AssegnazioneDBWrapper {
 	
 	@Id
@@ -24,12 +25,16 @@ public class AssegnazioneDBWrapper {
 	
 	@OneToMany(mappedBy="assegnazione",fetch = FetchType.EAGER)
 	List<PostoDBWrapper> Posti;
+	
+	@OneToOne
+	PrenotazioneDBWrapper prenotazione;
 
 	public AssegnazioneDBWrapper(String codice) {
 		AssegnazioneDBWrapper wrapper = this.findByPrimaryKey(codice);
 		if (wrapper != null) {
 			this.codiceAssegnazionePosti = codice;
 			this.Posti = wrapper.getPosti();
+			this.prenotazione = wrapper.getPrenotazione();
 		} else {
 			throw new RuntimeException("Posto non trovato!");
 		}
@@ -87,6 +92,15 @@ public class AssegnazioneDBWrapper {
 	public void setPosti(ArrayList<PostoDBWrapper> posti) {
 		Posti = posti;
 	}
+
+	public PrenotazioneDBWrapper getPrenotazione() {
+		return prenotazione;
+	}
+
+	public void setPrenotazione(PrenotazioneDBWrapper prenotazione) {
+		this.prenotazione = prenotazione;
+	}
+	
 	
 	
 

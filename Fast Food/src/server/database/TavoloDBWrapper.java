@@ -19,7 +19,7 @@ import server.database.util.HibernateUtil;
 import server.entity.Posto;
 
 @Entity
-@Table(name = "Tavolo")
+@Table(name = "Tavoli")
 public class TavoloDBWrapper {
 	
 	@Id
