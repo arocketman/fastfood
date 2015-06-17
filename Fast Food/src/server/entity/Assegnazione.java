@@ -26,7 +26,8 @@ public class Assegnazione implements Serializable {
 
 	public Assegnazione(String codiceAssegnazionePosti) {
 		AssegnazioneDBWrapper dbWrapper = new AssegnazioneDBWrapper(codiceAssegnazionePosti);
-		this.prenotazione = new Prenotazione(dbWrapper.getPrenotazione().getCodice());
+		if(prenotazione != null)
+			this.prenotazione = new Prenotazione(dbWrapper.getPrenotazione().getCodice());
 		this.codiceAssegnazionePosti = dbWrapper.getCodiceAssegnazionePosti();
 	}
 

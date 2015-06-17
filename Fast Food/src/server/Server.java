@@ -4,7 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
 
-import server.coordinator.IngressoController;
+import server.coordinator.Controller;
 import server.database.PostoDBWrapper;
 import server.database.TavoloDBWrapper;
 import server.entity.Posto;
@@ -13,7 +13,7 @@ import server.proxy.ServerProxyManager;
 
 public class Server {
 	
-	public static IngressoController ic = new IngressoController();
+	public static Controller ic = new Controller();
 	
 	public static void main(String[] args) throws RemoteException {
 		Server.inserisciDatiProvaDB();

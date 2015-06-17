@@ -46,6 +46,7 @@ public class Posto implements Serializable {
 		PostoDBWrapper postoDBWrapper = new PostoDBWrapper(codice);
 		this.assegnazione = new Assegnazione(postoDBWrapper.getAssegnazione().getCodiceAssegnazionePosti());
 		this.tavolo = new Tavolo(postoDBWrapper.getTavolo().getNumero());
+		this.codice = postoDBWrapper.getCodice();
 		
 		//Recupero dello stato
 		setStato(getStato(postoDBWrapper.getStato()));

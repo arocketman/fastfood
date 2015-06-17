@@ -13,26 +13,7 @@ public class GestoreTavoli {
 	public GestoreTavoli(){
 		tavoli = new ArrayList<Tavolo>();
 	}
-	
-	/*
-	public Tavolo richiediTavolo(int numPosti) {
-		for(Tavolo tavolo : tavoli){
-			int postiLiberi = 0;
-			
-			for(Posto posto : tavolo.getPosti()){
-				if(posto.isLibero())
-					postiLiberi++;
-			}
-			
-			if(postiLiberi >= numPosti)
-				return tavolo;
-		}
 		
-		//Tavolo non trovato
-		return null;
-		
-	} */
-	
 	public Tavolo richiediTavolo(int numPosti) {
 		for(Tavolo tavolo : tavoli){
 			int postiLiberi = 0;
@@ -75,6 +56,12 @@ public class GestoreTavoli {
 
 	public void aggiungiTavolo(Tavolo tavolo){
 		tavoli.add(tavolo);
+	}
+
+	public void occupaPosto(String codicePosto, int numeroTavolo) {
+		Posto posto = new Posto(codicePosto);
+		posto.confermaOccupazione();
+		posto.update();
 	}
 
 }

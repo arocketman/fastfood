@@ -27,8 +27,12 @@ public class GestoreAssegnazioni {
 		System.out.println("Assegnato nuovo tavolo con posti: " + assegnazione.getCodiceAssegnazionePosti());
 		
 		//Avvio timer all'assegnazione.
-		TimerCinqueMinuti timer = new TimerCinqueMinuti(assegnazione.getCodiceAssegnazionePosti());
-		timer.schedule(new TimerCinqueMinutiTask(assegnazione), 20000);
+		for(Posto p : posti){
+			TimerCinqueMinuti timer = new TimerCinqueMinuti(p.getCodice());
+			timer.schedule(new TimerCinqueMinutiTask(p), 200000);
+			timers.add(timer);
+		}
+		
 		
 		return assegnazione;
 	}
@@ -43,22 +47,71 @@ public class GestoreAssegnazioni {
 	
 	class TimerCinqueMinutiTask extends TimerTask{
 
-		Assegnazione assegnazione;
+		Posto postoAssegnato;
 		
-		public TimerCinqueMinutiTask(Assegnazione assegnazione){
-			this.assegnazione = assegnazione;
+		public TimerCinqueMinutiTask(Posto posto){
+			this.postoAssegnato = posto;
 		}
 		
 		@Override
 		public void run() {
-			for(Posto p : assegnazione.getPosti()){
-				p.rilasciaPosto();
-				p.setAssegnazione(null);
-				p.update();
-			}
-			System.out.println("cock");
+			postoAssegnato.rilasciaPosto();
+			postoAssegnato.setAssegnazione(null);
+			postoAssegnato.update();
+			System.out.println("Rilascio il posto : " + postoAssegnato.getCodice() + " (timer scaduto).");
 		}
 		
 	}
 
+	public int verificaAssegnazione(String codicePosto, int numeroTavolo,String codiceAssegnazione) {
+		Assegnazione assegnazione = getAssegnazione(codiceAssegnazione);
+		if(assegnazione == null)
+			return Controller.ERRORE;
+		else{
+			//Cerco se l'assegnazione datomi corrisponde con il posto
+			if(postoAndAssegnazioneCorrispondono(codicePosto,assegnazione)){
+				//A questo punto esiste
+				if(assegnazione.getPrenotazione() == null){
+						fermaTimer(codicePosto);
+						return Controller.OKAY;
+				}
+				else
+						return Controller.PRENOTAZIONE;
+			}
+			return Controller.ERRORE;
+		}
+		
+	}
+
+	private void fermaTimer(String codicePosto) {
+		for(TimerCinqueMinuti timerCinqueMinuti : timers){
+			if(timerCinqueMinuti.id.equalsIgnoreCase(codicePosto)){
+				System.out.println("Timer cinque minuti per posto assegnato : " + codicePosto + " viene cancellato per occupazione posto");
+				timerCinqueMinuti.cancel();
+			}
+		}
+		
+	}
+
+	private Assegnazione getAssegnazione(String codiceAssegnazione) {
+		for(Assegnazione assegnazione : Assegnazioni){
+			if(assegnazione.getCodiceAssegnazionePosti().equalsIgnoreCase(codiceAssegnazione))
+				return assegnazione;
+		}
+		return null;
+	}
+
+	/**
+	 * Controlla se all'interno dell'assegnazione è presente un posto avente codice == codicePosto
+	 * @param codicePosto
+	 * @param assegnazione
+	 * @return
+	 */
+	private boolean postoAndAssegnazioneCorrispondono(String codicePosto , Assegnazione assegnazione){
+		for(Posto p : assegnazione.getPosti()){
+			if(codicePosto.equalsIgnoreCase(p.getCodice()))
+				return true;
+		}
+		return false;
+	}
 }

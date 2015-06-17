@@ -9,6 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import client.business_logic.PostoBusinessLogic;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -20,6 +23,9 @@ public class PostoBoundary {
 	public static final int OKAY = 1;
 	public static final int ERRORE = -1;
 	public static final int PRENOTAZIONE = 2;
+	
+	String codicePosto;
+	int numeroTavolo;
 
 	/**
 	 * Launch the application.
@@ -28,7 +34,7 @@ public class PostoBoundary {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PostoBoundary window = new PostoBoundary();
+					PostoBoundary window = new PostoBoundary("AAAA",1);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,8 +46,10 @@ public class PostoBoundary {
 	/**
 	 * Create the application.
 	 */
-	public PostoBoundary() {
+	public PostoBoundary(String codicePosto , int numeroTavolo) {
 		initialize();
+		this.codicePosto = codicePosto;
+		this.numeroTavolo = numeroTavolo;
 	}
 
 	/**
@@ -67,7 +75,8 @@ public class PostoBoundary {
 		JButton btnOccupaPosto = new JButton("Occupa Posto");
 		btnOccupaPosto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				PostoBusinessLogic pbl = new PostoBusinessLogic();
+				pbl.occupaPosto(codicePosto, numeroTavolo, textFieldCodiceAssegnazione.getText());
 			}
 		});
 
