@@ -1,6 +1,7 @@
 package client.boundary;
 
 import client.business_logic.DirettoreBusinessLogic;
+import server.entity.Posto;
 import server.entity.Tavolo;
 
 import javax.swing.*;
@@ -62,8 +63,9 @@ public class DirettoreBoundary {
                         TableDrawing drawing = new TableDrawing(frame.getWidth(),frame.getHeight(),tavoli.size());
                         frame.getContentPane().add(drawing);
                         System.out.println("Tavolo : " + t.getNumero());
-                        for(int i = 0; i < t.getPosti().size(); i++){
-                            ChairDrawing chairDrawing = new ChairDrawing(drawing.x,drawing.y,i,t.getPosti().get(i).getStatoString());
+                        ArrayList<Posto> posti = t.getPosti();
+                        for(int i = 0; i < posti.size(); i++){
+                            ChairDrawing chairDrawing = new ChairDrawing(drawing,i,posti.get(i).getStatoString(),posti.size());
                             drawing.rectangles.add(chairDrawing);
                         }
 
@@ -101,7 +103,7 @@ class TableDrawing extends JPanel {
 
         for(ChairDrawing rect : rectangles){
             g.setColor(rect.stato);
-            g.fillRect(rect.x,rect.y,rect.w,rect.h);
+            g.fillRect(rect.x, rect.y, rect.w, rect.h);
         }
     }
 }
@@ -111,16 +113,23 @@ class ChairDrawing extends Rectangle {
     int x,y,w,h;
     Color stato;
 
-    public ChairDrawing(int tavX , int tavY , int numeroPosto , String stato) {
+    public ChairDrawing(TableDrawing drawing, int numeroPosto , String stato , int numeroPosti) {
+        //TODO: Le dimensioni della sedia sono in base al tavolo con maggior numero di posti.
         super();
+        int tavX = drawing.x;
+        int tavY = drawing.y;
+        int tabW = drawing.w;
+        int tabH = drawing.h;
         setStatoColor(stato);
-        x = tavX + (numeroPosto * 50);
-        y = tavY - 50;
-        w = 30;
-        h = 30;
+        int offset = tabW / numeroPosti;
+        x = tavX + (numeroPosto * offset);
+        y = tavY - offset;
+        w = (int) (offset * 0.6);
+        h = (int) (offset * 0.6);
     }
 
     private void setStatoColor(String stato){
+        //TODO: Potrebbe anche fare direttamente else, eliminare dopo testing approfondito.
         if(stato.equalsIgnoreCase("libero"))
             this.stato = Color.green;
         else if(stato.equalsIgnoreCase("assegnato"))

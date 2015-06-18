@@ -118,7 +118,35 @@ public class Server {
 		pp4.salva();
 		
 
-		ic.gestoreTavoli.aggiungiTavolo(t2);		
+		ic.gestoreTavoli.aggiungiTavolo(t2);
+
+		Tavolo t3 = new Tavolo();
+		Posto ppp1 = new Posto("IIII",t3);
+		Posto ppp2 = new Posto("LLLL",t3);
+		Posto ppp3 = new Posto("MMMM",t3);
+		Posto ppp4 = new Posto("NNNN",t3);
+
+		t3.aggiungiPosti(ppp1,ppp2,ppp3,ppp4);
+		t3.salva();
+		ppp1.salva();
+		ppp2.salva();
+		ppp3.salva();
+		ppp4.salva();
+
+
+		ic.gestoreTavoli.aggiungiTavolo(t3);
+/*
+		Tavolo t4 = new Tavolo();
+		Posto pppp1 = new Posto("OOOO",t4);
+		Posto pppp2 = new Posto("PPPP",t4);
+
+		t4.aggiungiPosti(pppp1,pppp2);
+		t4.salva();
+		pppp1.salva();
+		pppp2.salva();
+
+
+		ic.gestoreTavoli.aggiungiTavolo(t4);*/
 		
 	}
 }
