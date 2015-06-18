@@ -1,5 +1,7 @@
 package server.database;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -30,6 +32,9 @@ public class PostoDBWrapper {
 	@Column(name = "stato")
 	private String stato;
 	
+	@Column
+	Date occupazione;
+	
 
 	public PostoDBWrapper(String codice) {
 		PostoDBWrapper wrapper = this.findByPrimaryKey(codice);
@@ -38,6 +43,7 @@ public class PostoDBWrapper {
 			this.tavoloPosti = wrapper.getTavolo();
 			this.assegnazione = wrapper.getAssegnazione();
 			this.stato = wrapper.getStato();
+			this.occupazione = wrapper.getOccupazione();
 		} else {
 			throw new RuntimeException("Posto non trovato!");
 		}
@@ -126,6 +132,15 @@ public class PostoDBWrapper {
 	public void setStato(String stato) {
 		this.stato = stato;
 	}
+
+	public Date getOccupazione() {
+		return occupazione;
+	}
+
+	public void setOccupazione(Date occupazione) {
+		this.occupazione = occupazione;
+	}
 		
+	
 	
 }

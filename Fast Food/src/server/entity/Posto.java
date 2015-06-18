@@ -1,6 +1,7 @@
 package server.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import server.database.AssegnazioneDBWrapper;
 import server.database.PostoDBWrapper;
@@ -8,9 +9,6 @@ import server.database.TavoloDBWrapper;
 
 public class Posto implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5254230672604941026L;
 	
 	/* Ogni posto è identificato da un codice alfanumerico di 4 caratteri */
@@ -19,6 +17,9 @@ public class Posto implements Serializable {
 	
 	//Può anche essere null se non assegnato.
 	private Assegnazione assegnazione;
+	
+	//Stato occupazione
+	Date occupazione;
 	
 	//Implementazione pattern state
 	private State stato;
@@ -138,6 +139,7 @@ public class Posto implements Serializable {
 		dbWrapper.setCodice(this.codice);
 		dbWrapper.setStato(getStatoString());
 		dbWrapper.setTavolo(new TavoloDBWrapper(this.getTavolo().getNumero()));
+		dbWrapper.setOccupazione(occupazione);
 		dbWrapper.salva();
 		return this;
 		
@@ -151,6 +153,8 @@ public class Posto implements Serializable {
 			PostoDB.setAssegnazione(new AssegnazioneDBWrapper(this.assegnazione.codiceAssegnazionePosti));
 		PostoDB.setStato(getStatoString());
 		PostoDB.setTavolo(new TavoloDBWrapper(this.tavolo.getNumero()));
+		if(occupazione != null)
+			PostoDB.setOccupazione(occupazione);
 		PostoDB.update();
 		
 		return this;
@@ -161,8 +165,14 @@ public class Posto implements Serializable {
 		else if(isOccupato()) return "occupato";
 		else return "assegnato";
 	}
-	
-	
+
+	public Date getOccupazione() {
+		return occupazione;
+	}
+
+	public void setOccupazione(Date occupazione) {
+		this.occupazione = occupazione;
+	}
 	
 	
 	

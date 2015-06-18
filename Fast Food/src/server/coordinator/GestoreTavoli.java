@@ -1,10 +1,10 @@
 package server.coordinator;
 
-import java.util.ArrayList;
-
 import server.entity.Posto;
-import server.entity.PostoLibero;
 import server.entity.Tavolo;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 public class GestoreTavoli {
 
@@ -61,6 +61,7 @@ public class GestoreTavoli {
 	public void occupaPosto(String codicePosto, int numeroTavolo) {
 		Posto posto = new Posto(codicePosto);
 		posto.confermaOccupazione();
+		posto.setOccupazione(new Date());
 		posto.update();
 	}
 

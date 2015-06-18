@@ -1,20 +1,11 @@
 package client.boundary;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-
 import client.business_logic.PostoBusinessLogic;
 
-import java.awt.event.ActionListener;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
 
 public class PostoBoundary {
 
@@ -36,7 +27,7 @@ public class PostoBoundary {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PostoBoundary window = new PostoBoundary("AAAA",1);
+					PostoBoundary window = new PostoBoundary(args[0],Integer.valueOf(args[1]));
 					window.framePostoAssegnazione.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
