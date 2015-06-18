@@ -33,7 +33,7 @@ public class IngressoBoundary {
 	/** Bottone di submit richiesta tavolo **/
 	private JButton btnInviaRichiestaTavolo;
 	
-	/** Combobox per la scelta del numero di posti **/
+	/** Combobox per la scelta del numercxso di posti **/
 	private JComboBox<Integer> comboBox;
 
 	public static void main(String[] args) {
