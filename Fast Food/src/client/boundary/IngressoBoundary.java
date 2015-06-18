@@ -1,31 +1,16 @@
 package client.boundary;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JButton;
-
-
-import javax.swing.JLabel;
-
-
-import javax.swing.BoxLayout;
-
-
-
-import server.entity.Assegnazione;
 import client.business_logic.IngressoBusinessLogic;
+import server.entity.Assegnazione;
 
-import java.awt.event.ActionListener;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-
-import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
 
 public class IngressoBoundary {
 
-	private static final int MAX_POSTI_TAVOLO = 6;
+	private static final int MAX_POSTI_TAVOLO = 4;
 	
 	/** La frame del client di ingresso **/
 	private JFrame frame;
@@ -33,7 +18,7 @@ public class IngressoBoundary {
 	/** Bottone di submit richiesta tavolo **/
 	private JButton btnInviaRichiestaTavolo;
 	
-	/** Combobox per la scelta del numercxso di posti **/
+	/** Combobox per la scelta del numercxs qo di posti **/
 	private JComboBox<Integer> comboBox;
 
 	public static void main(String[] args) {

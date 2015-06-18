@@ -1,5 +1,6 @@
 package server.coordinator;
 
+import server.Server;
 import server.entity.Posto;
 import server.entity.Tavolo;
 
@@ -63,6 +64,22 @@ public class GestoreTavoli {
 		posto.confermaOccupazione();
 		posto.setOccupazione(new Date());
 		posto.update();
+		updateListaPosti();
 	}
 
+	public boolean liberaPosto(String codicePosto, int numeroTavolo) {
+		Posto posto = new Posto(codicePosto);
+		posto.rilasciaPosto();
+		posto.setOccupazione(null);
+		posto.setAssegnazione(null);
+		posto.update();
+		updateListaPosti();
+		return true;
+	}
+
+	private void updateListaPosti(){
+		this.tavoli.clear();
+		for(Tavolo t : Server.loadTavoli())
+			aggiungiTavolo(t);
+	}
 }

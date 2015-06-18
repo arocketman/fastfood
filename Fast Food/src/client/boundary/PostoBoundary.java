@@ -27,7 +27,12 @@ public class PostoBoundary {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PostoBoundary window = new PostoBoundary(args[0],Integer.valueOf(args[1]));
+					PostoBoundary window;
+					if(args.length > 0)
+						window = new PostoBoundary(args[0],Integer.valueOf(args[1]));
+					else
+						window = new PostoBoundary("AAAA",1);
+
 					window.framePostoAssegnazione.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -75,10 +80,32 @@ public class PostoBoundary {
 			public void actionPerformed(ActionEvent arg0) {
 				PostoBusinessLogic pbl = new PostoBusinessLogic();
 				int risultato = pbl.occupaPosto(codicePosto, numeroTavolo, textFieldCodiceAssegnazione.getText());
-				if(risultato == OKAY)
+				if(risultato == OKAY) {
 					System.out.println("Mostro il menu, il resto scompare.");
-				else if(risultato == PRENOTAZIONE)
+					framePostoAssegnazione.getContentPane().removeAll();
+					framePostoAssegnazione.getContentPane().revalidate();
+					framePostoAssegnazione.getContentPane().repaint();
+					JButton btnLiberaTavolo = new JButton("liberaTavolo");
+					btnLiberaTavolo.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							PostoBusinessLogic postoBusinessLogic = new PostoBusinessLogic();
+							postoBusinessLogic.liberaPosto(codicePosto,numeroTavolo);
+						}
+					});
+					framePostoAssegnazione.add(btnLiberaTavolo);
+				}
+				else if(risultato == PRENOTAZIONE){
 					System.out.println("Inserisci anche la prenotazione..");
+					lblCodiceAssegnazione.setText("Il posto e' stato prenotato! Inserisci codice prenotazione:");
+					textFieldCodiceAssegnazione.setText("");
+					btnOccupaPosto.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							System.out.println("gh");
+						}
+					});
+				}
 				else
 					System.out.println("Errore nel codice di assegnazione inserito");
 			}

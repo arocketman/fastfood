@@ -1,9 +1,5 @@
 package server;
 
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.util.ArrayList;
-
 import server.coordinator.Controller;
 import server.database.PostoDBWrapper;
 import server.database.TavoloDBWrapper;
@@ -11,13 +7,18 @@ import server.entity.Posto;
 import server.entity.Tavolo;
 import server.proxy.ServerProxyManager;
 
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.util.ArrayList;
+
 public class Server {
 	
 	public static Controller ic = new Controller();
 	
 	public static void main(String[] args) throws RemoteException {
 		Server.inserisciDatiProvaDB();
-		
+
+		System.setProperty("java.rmi.server.hostname","62.98.100.27");
 		//avvia il registry sul porto 1099 (default)
 		LocateRegistry.createRegistry(1099);
 		//Server.loadFromDB();

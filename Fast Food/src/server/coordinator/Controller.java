@@ -1,6 +1,5 @@
 package server.coordinator;
 
-import server.Server;
 import server.entity.Assegnazione;
 import server.entity.Tavolo;
 
@@ -42,4 +41,7 @@ public class Controller {
 		
 	}
 
+	public boolean liberaPosto(String codicePosto, int numeroTavolo) {
+		return gestoreTavoli.liberaPosto(codicePosto,numeroTavolo);
+	}
 }
