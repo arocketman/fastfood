@@ -55,7 +55,7 @@ public class Posto implements Serializable {
 	
 	//Implementazione del pattern state.
 	
-	private State getStato(String stato) {
+	public State getStato(String stato) {
 		poass = new PostoAssegnato(this);
 		polib = new PostoLibero(this);
 		poocc = new PostoOccupato(this);

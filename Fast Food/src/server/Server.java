@@ -3,6 +3,7 @@ package server;
 import server.coordinator.Controller;
 import server.database.PostoDBWrapper;
 import server.database.TavoloDBWrapper;
+import server.entity.Assegnazione;
 import server.entity.Posto;
 import server.entity.Tavolo;
 import server.proxy.ServerProxyManager;
@@ -72,6 +73,14 @@ public class Server {
 			ArrayList<PostoDBWrapper> postiDBWrapper = (ArrayList<PostoDBWrapper>) tavoloDBWrapper.getPosti();
 			for(PostoDBWrapper postoDBWrapper : postiDBWrapper){
 				Posto posto = new Posto(postoDBWrapper.getCodice(),tavolo);
+				if(postoDBWrapper.getAssegnazione() != null)
+					posto.setAssegnazione(new Assegnazione(postoDBWrapper.getAssegnazione().getCodiceAssegnazionePosti()));
+				posto.setTavolo(new Tavolo(tavolo.getNumero()));
+				posto.setCodice(postoDBWrapper.getCodice());
+
+				//Recupero dello stato
+				posto.setStato(posto.getStato(postoDBWrapper.getStato()));
+
 				tavolo.aggiungiPosti(posto);
 			}
 			tavoli.add(tavolo);
