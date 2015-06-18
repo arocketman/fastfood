@@ -3,6 +3,8 @@ package server.coordinator;
 import server.entity.Assegnazione;
 import server.entity.Tavolo;
 
+import java.util.ArrayList;
+
 public class Controller {
 
 	public GestoreTavoli gestoreTavoli;
@@ -43,5 +45,9 @@ public class Controller {
 
 	public boolean liberaPosto(String codicePosto, int numeroTavolo) {
 		return gestoreTavoli.liberaPosto(codicePosto,numeroTavolo);
+	}
+
+	public ArrayList<Tavolo> visualizzaStatoFastFood() {
+		return gestoreTavoli.visualizzaStatoFastFood();
 	}
 }

@@ -82,4 +82,8 @@ public class GestoreTavoli {
 		for(Tavolo t : Server.loadTavoli())
 			aggiungiTavolo(t);
 	}
+
+	public ArrayList<Tavolo> visualizzaStatoFastFood() {
+		return tavoli;
+	}
 }

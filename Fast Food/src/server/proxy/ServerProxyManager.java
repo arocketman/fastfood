@@ -1,5 +1,6 @@
 package server.proxy;
 
+import common.rmi.DirettoreProxyInterface;
 import common.rmi.IngressoProxyInterface;
 import common.rmi.PostoProxyInterface;
 
@@ -23,6 +24,11 @@ public class ServerProxyManager {
 			PostoProxyInterface postoProxyI;
 			postoProxyI = (PostoProxyInterface) UnicastRemoteObject.exportObject(postoProxy, 1100);
 			registry.rebind("posto_proxy",postoProxyI);
+
+			DirettoreProxy DirettoreProxy = new DirettoreProxy();
+			DirettoreProxyInterface DirettoreProxyI;
+			DirettoreProxyI = (DirettoreProxyInterface) UnicastRemoteObject.exportObject(DirettoreProxy, 1100);
+			registry.rebind("direttore_proxy",DirettoreProxyI);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
