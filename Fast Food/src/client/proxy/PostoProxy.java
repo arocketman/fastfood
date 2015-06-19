@@ -33,10 +33,11 @@ public class PostoProxy {
 			return proxy.liberaPosto(codicePosto, numeroTavolo);
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			return false;
 		} catch (NotBoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
-		return false;
 	}
 }

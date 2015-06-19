@@ -86,4 +86,6 @@ public class GestoreTavoli {
 	public ArrayList<Tavolo> visualizzaStatoFastFood() {
 		return tavoli;
 	}
+
+
 }
