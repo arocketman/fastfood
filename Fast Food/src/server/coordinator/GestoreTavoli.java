@@ -77,7 +77,7 @@ public class GestoreTavoli {
 		return true;
 	}
 
-	private void updateListaPosti(){
+	public synchronized void updateListaPosti(){
 		this.tavoli.clear();
 		for(Tavolo t : Server.loadTavoli())
 			aggiungiTavolo(t);

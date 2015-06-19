@@ -135,7 +135,7 @@ public class Server {
 
 
 		ic.gestoreTavoli.aggiungiTavolo(t3);
-/*
+
 		Tavolo t4 = new Tavolo();
 		Posto pppp1 = new Posto("OOOO",t4);
 		Posto pppp2 = new Posto("PPPP",t4);
@@ -146,7 +146,7 @@ public class Server {
 		pppp2.salva();
 
 
-		ic.gestoreTavoli.aggiungiTavolo(t4);*/
+		ic.gestoreTavoli.aggiungiTavolo(t4);
 		
 	}
 }

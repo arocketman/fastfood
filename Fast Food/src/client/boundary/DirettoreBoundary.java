@@ -8,16 +8,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.Timer;
 
 /**
  * Created by Andrew on 18/06/2015.
  */
 public class DirettoreBoundary {
 
-        private static final int MAX_POSTI_TAVOLO = 4;
+        public static final int MAX_POSTI_TAVOLO = 8;
+        public static final int DIM_POSTO = 26;
 
-        /** La frame del client di ingresso **/
+
+    /** La frame del client di ingresso **/
         private JFrame frame;
 
         public static void main(String[] args) {
@@ -53,30 +56,38 @@ public class DirettoreBoundary {
             buttonVisualizzaStato.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    frame.getContentPane().removeAll();
-                    frame.getContentPane().revalidate();
-                    frame.getContentPane().repaint();
-
-                    DirettoreBusinessLogic direttoreBusinessLogic = new DirettoreBusinessLogic();
-                    ArrayList<Tavolo> tavoli = direttoreBusinessLogic.visualizzaStatoFastFood();
-                    for(Tavolo t : tavoli){
-                        TableDrawing drawing = new TableDrawing(frame.getWidth(),frame.getHeight(),tavoli.size());
-                        frame.getContentPane().add(drawing);
-                        System.out.println("Tavolo : " + t.getNumero());
-                        ArrayList<Posto> posti = t.getPosti();
-                        for(int i = 0; i < posti.size(); i++){
-                            ChairDrawing chairDrawing = new ChairDrawing(drawing,i,posti.get(i).getStatoString(),posti.size());
-                            drawing.rectangles.add(chairDrawing);
+                    java.util.Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            updateStato();
                         }
-
-                        drawing.revalidate();
-                        drawing.repaint();
-
-                    }
+                    },0,5000);
                 }
             });
             frame.getContentPane().add(buttonVisualizzaStato);
         }
+
+    private void updateStato(){
+        frame.getContentPane().removeAll();
+        frame.getContentPane().revalidate();
+        frame.getContentPane().repaint();
+        DirettoreBusinessLogic direttoreBusinessLogic = new DirettoreBusinessLogic();
+        ArrayList<Tavolo> tavoli = direttoreBusinessLogic.visualizzaStatoFastFood();
+        for(Tavolo t : tavoli){
+            ArrayList<Posto> posti = t.getPosti();
+            TableDrawing drawing = new TableDrawing(frame.getWidth(),frame.getHeight(),tavoli.size(),posti.size(),t.getNumero());
+            frame.getContentPane().add(drawing);
+            for(int i = 0; i < posti.size(); i++){
+                ChairDrawing chairDrawing = new ChairDrawing(drawing,i,posti.get(i).getStatoString(),posti.size());
+                drawing.rectangles.add(chairDrawing);
+            }
+
+            drawing.revalidate();
+            drawing.repaint();
+
+        }
+    }
 }
 
 class TableDrawing extends JPanel {
@@ -84,12 +95,15 @@ class TableDrawing extends JPanel {
     int x,y,w,h;
     int windowsWidth, windowsHeight;
     ArrayList<ChairDrawing> rectangles = new ArrayList<>();
+    int numTavoli , numTavolo;
 
-    public TableDrawing(int ww , int wh , int numTavoli) {
+    public TableDrawing(int ww , int wh , int numTavoli , int numPosti, int numTavolo) {
         super();
         this.windowsWidth = ww;
         this.windowsHeight = wh;
-        w = new Double((ww/numTavoli)*0.8).intValue();
+        this.numTavoli = numTavoli;
+        this.numTavolo = numTavolo;
+        w = DirettoreBoundary.DIM_POSTO * numPosti;
         h = new Double((wh/numTavoli)*0.2).intValue();
         x = ((ww / numTavoli ) / 2 ) - w/2;
         y = wh / 2;
@@ -104,6 +118,9 @@ class TableDrawing extends JPanel {
         for(ChairDrawing rect : rectangles){
             g.setColor(rect.stato);
             g.fillRect(rect.x, rect.y, rect.w, rect.h);
+            g.setColor(Color.black);
+            g.setFont(new Font("Monospaced", Font.PLAIN, 70/numTavoli));
+            g.drawString("Tavolo " + numTavolo,(getWidth()/2 ) /2 ,this.getY()+50);
         }
     }
 }
@@ -121,7 +138,7 @@ class ChairDrawing extends Rectangle {
         int tabW = drawing.w;
         int tabH = drawing.h;
         setStatoColor(stato);
-        int offset = tabW / numeroPosti;
+        int offset = DirettoreBoundary.DIM_POSTO;
         x = tavX + (numeroPosto * offset);
         y = tavY - offset;
         w = (int) (offset * 0.6);

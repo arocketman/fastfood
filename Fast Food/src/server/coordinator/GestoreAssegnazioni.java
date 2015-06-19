@@ -1,13 +1,13 @@
 package server.coordinator;
 
+import server.entity.Assegnazione;
+import server.entity.Posto;
+
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import server.entity.Assegnazione;
-import server.entity.Posto;
 
 public class GestoreAssegnazioni {
 	
@@ -19,7 +19,7 @@ public class GestoreAssegnazioni {
 		this.timers = new ArrayList<TimerCinqueMinuti>();
 	}
 
-	public Assegnazione assegnaPosti(ArrayList<Posto> posti) {
+	public Assegnazione assegnaPosti(ArrayList<Posto> posti,GestoreTavoli gestoreTavoli) {
 		SecureRandom random = new SecureRandom();
 		String codiceAlfaNumerico = new BigInteger(130, random).toString(32).substring(0,5);
 		Assegnazione assegnazione = new Assegnazione(codiceAlfaNumerico,posti);
@@ -29,7 +29,7 @@ public class GestoreAssegnazioni {
 		//Avvio timer all'assegnazione.
 		for(Posto p : posti){
 			TimerCinqueMinuti timer = new TimerCinqueMinuti(p.getCodice());
-			timer.schedule(new TimerCinqueMinutiTask(p), 200000);
+			timer.schedule(new TimerCinqueMinutiTask(p,gestoreTavoli), 200000);
 			timers.add(timer);
 		}
 		
@@ -48,9 +48,11 @@ public class GestoreAssegnazioni {
 	class TimerCinqueMinutiTask extends TimerTask{
 
 		Posto postoAssegnato;
+		GestoreTavoli gestoreTavoli;
 		
-		public TimerCinqueMinutiTask(Posto posto){
+		public TimerCinqueMinutiTask(Posto posto,GestoreTavoli gestoreTavoli){
 			this.postoAssegnato = posto;
+			this.gestoreTavoli = gestoreTavoli;
 		}
 		
 		@Override
@@ -59,6 +61,7 @@ public class GestoreAssegnazioni {
 			postoAssegnato.setAssegnazione(null);
 			postoAssegnato.update();
 			System.out.println("Rilascio il posto : " + postoAssegnato.getCodice() + " (timer scaduto).");
+			gestoreTavoli.updateListaPosti();
 		}
 		
 	}

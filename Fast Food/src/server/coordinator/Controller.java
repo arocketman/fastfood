@@ -27,7 +27,7 @@ public class Controller {
 			System.out.println("Non ci sono tavoli disponibili. (Avvia la prenoatzione)");
 			return null;
 		}
-		return gestoreAssegnazioni.assegnaPosti(tavolo.getPosti());
+		return gestoreAssegnazioni.assegnaPosti(tavolo.getPosti(),this.gestoreTavoli);
 	}
 
 	public boolean inserisciPrenotazione(String cognome, String telefono,int numPosti) {
