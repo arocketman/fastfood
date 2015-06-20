@@ -72,10 +72,11 @@ public class DirettoreBoundary {
             frame.getContentPane().add(buttonVisualizzaStato);
 
             //Setup bottone visualizza occupato > 15min
-            JButton buttonVisualizzaOccupati = new JButton("Visualizza stato fast food");
+            JButton buttonVisualizzaOccupati = new JButton("Visualizza posti occupati da piu' di 15 min");
             buttonVisualizzaOccupati.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
                     java.util.Timer timer = new Timer();
                     timer.schedule(new TimerTask() {
                         @Override
@@ -101,12 +102,15 @@ public class DirettoreBoundary {
             frame.getContentPane().add(tavoloLabel);
             for(int i = 0; i < posti.size(); i++){
                 if(posti.get(i).getStatoString().equalsIgnoreCase("occupato")) {
-                    if (getDateDiff(posti.get(i).getOccupazione(), new Date(), TimeUnit.MINUTES) > 15) {
-                        JLabel postoLabel = new JLabel("Posto " + posti.get(i).getCodice());
+                    long tempoOccupazione = getDateDiff(posti.get(i).getOccupazione(), new Date(), TimeUnit.MINUTES);
+                    if (tempoOccupazione > 15) {
+                        JLabel postoLabel = new JLabel("Posto " + posti.get(i).getCodice() + " , " + tempoOccupazione + " minuti. ");
                         frame.getContentPane().add(postoLabel);
                     }
                 }
             }
+            frame.getContentPane().revalidate();
+            frame.getContentPane().repaint();
 
         }
     }

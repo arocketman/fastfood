@@ -81,6 +81,9 @@ public class Server {
 				//Recupero dello stato
 				posto.setStato(posto.getStato(postoDBWrapper.getStato()));
 
+				if(postoDBWrapper.getOccupazione() != null)
+					posto.setOccupazione(postoDBWrapper.getOccupazione());
+
 				tavolo.aggiungiPosti(posto);
 			}
 			tavoli.add(tavolo);
