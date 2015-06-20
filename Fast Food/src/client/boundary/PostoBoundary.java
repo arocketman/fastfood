@@ -7,6 +7,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Client del posto . si inizializza con args[0] = codice , args[1] = tavolo
+ */
 public class PostoBoundary {
 
 	private JFrame framePostoAssegnazione;

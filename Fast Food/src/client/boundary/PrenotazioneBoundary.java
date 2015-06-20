@@ -1,20 +1,16 @@
 package client.boundary;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-
 import client.business_logic.IngressoBusinessLogic;
 
-import java.awt.event.ActionListener;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+/**
+ * Ha i metodi e membri necessari per gestire la finestra di prenotazione.
+ * NB: NON E' UN CLIENT AGGIUNTIVO. NON HA MAIN. E' Aperto dal client assegnazione.
+ */
 public class PrenotazioneBoundary {
 
 	JFrame frame;
@@ -63,7 +59,9 @@ public class PrenotazioneBoundary {
 		
 		frame.getContentPane().add(textFieldTelefono);
 		textFieldTelefono.setColumns(10);
-		
+
+		//Bottone inserisci prenotazione, richiama la business logic.
+
 		btnInserisciPrenotazione = new JButton("Inserisci prenotazione");
 		btnInserisciPrenotazione.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

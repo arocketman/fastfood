@@ -8,6 +8,9 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+/**
+ * Proxy con cui interagisce la business logic del client del posto.
+ */
 public class PostoProxy {
 	public int occupaPosto(String codicePosto, int numeroTavolo, String codiceAssegnazione) {
 		try {

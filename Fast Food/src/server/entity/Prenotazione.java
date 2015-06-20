@@ -9,7 +9,14 @@ public class Prenotazione {
 	String cognome;
 	int numeroPosti;
 	Assegnazione assegnazione;
-	
+
+	/**
+	 * Crea una nuova prenotazione. Non interagisce con il DB.
+	 * @param codice codice prenotazione.
+	 * @param cognome il cognome del cliente.
+	 * @param telefono numero di telefono del cliente.
+	 * @param numeroPosti il numero dei posti richiesti.
+	 */
 	public Prenotazione(String codice, String cognome, String telefono,int numeroPosti) {
 		this.codice = codice;
 		this.telefono = telefono;
@@ -17,8 +24,13 @@ public class Prenotazione {
 		this.numeroPosti = numeroPosti;
 	}
 
+	/**
+	 * Crea un oggetto di tipo prenotazione andandolo a recuperare dal database.
+	 * @param codice
+	 */
 	public Prenotazione(String codice) {
-		PrenotazioneDBWrapper dbWrapper = new PrenotazioneDBWrapper();
+		//TODO: RIVEDERE.
+		PrenotazioneDBWrapper dbWrapper = new PrenotazioneDBWrapper(codice);
 		this.codice = dbWrapper.getCodice();
 		this.telefono = dbWrapper.getTelefono();
 		this.cognome = dbWrapper.getCognome();
@@ -57,7 +69,11 @@ public class Prenotazione {
 	public void setNumeroPosti(int numeroPosti) {
 		this.numeroPosti = numeroPosti;
 	}
-	
+
+	/**
+	 * Salva la prenotazione su DB. Interagisce don PrenotazioneDBWrapper.
+	 * @return
+	 */
 	public Prenotazione salva(){
 		PrenotazioneDBWrapper dbWrapper = new PrenotazioneDBWrapper();
 		dbWrapper.setCodice(this.codice);

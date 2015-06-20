@@ -1,11 +1,11 @@
 package server.entity;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import server.database.AssegnazioneDBWrapper;
 import server.database.PostoDBWrapper;
 import server.database.TavoloDBWrapper;
+
+import java.io.Serializable;
+import java.util.Date;
 
 public class Posto implements Serializable {
 	
@@ -21,12 +21,17 @@ public class Posto implements Serializable {
 	//Stato occupazione
 	Date occupazione;
 	
-	//Implementazione pattern state
+	/* Implementazione pattern state */
 	private State stato;
 	State poass;
 	State polib;
 	State poocc;
-	
+
+	/**
+	 * Costruttore per Posto, senza accesso al database. Crea un oggetto Posto con codice e tavolo assengati e avente stato iniziale Libero.
+	 * @param codice il codice del posto.
+	 * @param tavolo il tavolo a cui il posto appartiene.
+	 */
 	public Posto(String codice, Tavolo tavolo) {
 		//Il codice deve essere di 4 cifre.
 		if(codice.length() != 4) 
@@ -52,9 +57,12 @@ public class Posto implements Serializable {
 		//Recupero dello stato
 		setStato(getStato(postoDBWrapper.getStato()));
 	}
-	
-	//Implementazione del pattern state.
-	
+
+	/**
+	 * Ritorna un oggetto della classe State in base alla stringa in ingresso. Metodo di utilità per corretto funzionamento del pattern State.
+	 * @param stato stringa rappresentante lo stato , può essere 'occupato' , 'assegnato' , 'libero'.
+	 * @return
+	 */
 	public State getStato(String stato) {
 		poass = new PostoAssegnato(this);
 		polib = new PostoLibero(this);
@@ -130,7 +138,11 @@ public class Posto implements Serializable {
 	public boolean isAssegnato(){
 		return this.stato instanceof PostoAssegnato;
 	}
-	
+
+	/**
+	 * Salva l'entita' posto su DB. Interagisce con PostoDBWrapper.
+	 * @return
+	 */
 	public Posto salva(){
 		PostoDBWrapper dbWrapper = new PostoDBWrapper();
 		if(this.assegnazione != null)
@@ -144,7 +156,11 @@ public class Posto implements Serializable {
 		return this;
 		
 	}
-	
+
+	/**
+	 * Aggiorna l'entità posto su DB.
+	 * @return
+	 */
 	public Posto update() {
 		PostoDBWrapper PostoDB = new PostoDBWrapper();
 
@@ -159,7 +175,11 @@ public class Posto implements Serializable {
 		
 		return this;
 	}
-	
+
+	/**
+	 * Ritorna lo stato del posto in forma di stringa.
+	 * @return
+	 */
 	public String getStatoString(){
 		if(isLibero()) return "libero";
 		else if(isOccupato()) return "occupato";

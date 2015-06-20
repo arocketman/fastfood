@@ -8,19 +8,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 /**
- * Created by Andrew on 18/06/2015.
+ * Client per direttore, utilizzato per effettuare le operazioni di visualizza stato fast food e altro.
  */
 public class DirettoreBoundary {
 
-        public static final int MAX_POSTI_TAVOLO = 8;
+        /* Dimensioni in pixels di un singolo posto, utilizzato per rappresentare lo stato del fast food */
         public static final int DIM_POSTO = 26;
 
 
-    /** La frame del client di ingresso **/
+        /** La frame del client di ingresso **/
         private JFrame frame;
 
         public static void main(String[] args) {
@@ -52,6 +55,7 @@ public class DirettoreBoundary {
             frame.getContentPane().setMaximumSize(frame.getContentPane().getPreferredSize());
             frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 
+            //Setup bottone visualizza stato fast food.
             JButton buttonVisualizzaStato = new JButton("Visualizza stato fast food");
             buttonVisualizzaStato.addActionListener(new ActionListener() {
                 @Override
@@ -66,8 +70,56 @@ public class DirettoreBoundary {
                 }
             });
             frame.getContentPane().add(buttonVisualizzaStato);
+
+            //Setup bottone visualizza occupato > 15min
+            JButton buttonVisualizzaOccupati = new JButton("Visualizza stato fast food");
+            buttonVisualizzaOccupati.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    java.util.Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            updateStatoOccupati();
+                        }
+                    },0,5000);
+                }
+            });
+            frame.getContentPane().add(buttonVisualizzaOccupati);
         }
 
+    private void updateStatoOccupati() {
+        frame.getContentPane().removeAll();
+        frame.getContentPane().revalidate();
+        frame.getContentPane().repaint();
+        DirettoreBusinessLogic direttoreBusinessLogic = new DirettoreBusinessLogic();
+        ArrayList<Tavolo> tavoli = direttoreBusinessLogic.visualizzaStatoFastFood();
+        for(Tavolo t : tavoli){
+            ArrayList<Posto> posti = t.getPosti();
+            JLabel tavoloLabel = new JLabel("Tavolo : " + t.getNumero());
+            tavoloLabel.setFont(new Font("Arial",Font.BOLD,16));
+            frame.getContentPane().add(tavoloLabel);
+            for(int i = 0; i < posti.size(); i++){
+                if(posti.get(i).getStatoString().equalsIgnoreCase("occupato")) {
+                    if (getDateDiff(posti.get(i).getOccupazione(), new Date(), TimeUnit.MINUTES) > 15) {
+                        JLabel postoLabel = new JLabel("Posto " + posti.get(i).getCodice());
+                        frame.getContentPane().add(postoLabel);
+                    }
+                }
+            }
+
+        }
+    }
+
+    private static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+        long diffInMillies = date2.getTime() - date1.getTime();
+        return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+    }
+
+
+    /**
+     * Aggiorna lo stato del fast food. Andando a lavorare sull'arrayList di tavoli.
+     */
     private void updateStato(){
         frame.getContentPane().removeAll();
         frame.getContentPane().revalidate();
@@ -90,6 +142,9 @@ public class DirettoreBoundary {
     }
 }
 
+/**
+ * Rappresenta un disegno di un tavolo.
+ */
 class TableDrawing extends JPanel {
 
     int x,y,w,h;
@@ -125,6 +180,9 @@ class TableDrawing extends JPanel {
     }
 }
 
+/**
+ * Rappresenta un disegno di una sedia.
+ */
 class ChairDrawing extends Rectangle {
 
     int x,y,w,h;

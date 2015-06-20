@@ -1,13 +1,16 @@
 package client.proxy;
 
+import common.rmi.IngressoProxyInterface;
+import server.entity.Assegnazione;
+
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-import common.rmi.IngressoProxyInterface;
-import server.entity.Assegnazione;
-
+/**
+ * Proxy con cui interagisce la business logic del client in ingresso.
+ */
 public class IngressoProxy {
 
 	public Assegnazione richiediTavolo(int numPosti){

@@ -10,7 +10,7 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 
 /**
- * Created by Andrew on 18/06/2015.
+ * Proxy con cui interagisce la business logic del client Direttore.
  */
 public class DirettoreProxy {
 
@@ -24,7 +24,6 @@ public class DirettoreProxy {
             }catch(RemoteException e){
                 e.printStackTrace();
             } catch (NotBoundException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 

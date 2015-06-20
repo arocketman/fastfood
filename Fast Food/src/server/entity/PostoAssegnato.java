@@ -8,7 +8,6 @@ public class PostoAssegnato extends State implements Serializable{
 
 	public PostoAssegnato(Posto p) {
 		super(p);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public PostoAssegnato(){
