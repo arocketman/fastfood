@@ -51,6 +51,8 @@ public class Controller {
 		for(Prenotazione p : gestorePrenotazioni.prenotazioni){
 			Assegnazione assegnazione = richiediTavolo(p.getNumeroPosti());
 			if(assegnazione != null){
+				assegnazione.setPrenotazione(p);
+				assegnazione.update();
 				//Tavolo trovato.
 				String messaggio = "Gentile signore/a " + p.getCognome() +
 						" , le e' appena stato assegnato il tavolo : " + assegnazione.getNumeroTavolo() +

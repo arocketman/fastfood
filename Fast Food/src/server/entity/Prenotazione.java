@@ -38,6 +38,20 @@ public class Prenotazione {
 		this.assegnazione = new Assegnazione(dbWrapper.getAssegnazione().getCodiceAssegnazionePosti());
 	}
 
+	/**
+	 * Crea un oggetto di tipo prenotazione andandolo a recuperare dal database.
+	 * @param codice
+	 */
+	public Prenotazione(String codice,Assegnazione assegnazione) {
+		//TODO: RIVEDERE.
+		PrenotazioneDBWrapper dbWrapper = new PrenotazioneDBWrapper(codice);
+		this.codice = dbWrapper.getCodice();
+		this.telefono = dbWrapper.getTelefono();
+		this.cognome = dbWrapper.getCognome();
+		this.numeroPosti = dbWrapper.getNumeroPosti();
+		this.assegnazione = assegnazione;
+	}
+
 	public String getCodice() {
 		return codice;
 	}

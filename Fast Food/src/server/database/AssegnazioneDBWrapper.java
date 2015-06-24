@@ -1,20 +1,13 @@
 package server.database;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-
+import org.hibernate.collection.internal.PersistentBag;
 import server.database.util.HibernateUtil;
-import server.entity.Posto;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Assegnazioni")
@@ -44,7 +37,7 @@ public class AssegnazioneDBWrapper {
 		// TODO Auto-generated constructor stub
 	}
 
-	public AssegnazioneDBWrapper findByPrimaryKey(String codice) {
+	public static AssegnazioneDBWrapper findByPrimaryKey(String codice) {
 		//apro la sessione e la transazione
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
@@ -76,7 +69,22 @@ public class AssegnazioneDBWrapper {
 		
 		return this;
 	}
-	
+
+	public AssegnazioneDBWrapper update() {
+		//apro la sessione e la transazione
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+
+		session.update(this);
+
+		//chiudo la transazione e la sessione
+		session.getTransaction().commit();
+		session.close();
+
+		return this;
+	}
+
 	public String getCodiceAssegnazionePosti() {
 		return codiceAssegnazionePosti;
 	}
@@ -86,6 +94,8 @@ public class AssegnazioneDBWrapper {
 	}
 
 	public List<PostoDBWrapper> getPosti() {
+		if(Posti instanceof PersistentBag)
+			return new ArrayList<PostoDBWrapper>(Posti);
 		return Posti;
 	}
 

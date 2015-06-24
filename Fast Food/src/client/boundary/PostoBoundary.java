@@ -88,7 +88,6 @@ public class PostoBoundary {
 				PostoBusinessLogic pbl = new PostoBusinessLogic();
 				int risultato = pbl.occupaPosto(codicePosto, numeroTavolo, textFieldCodiceAssegnazione.getText());
 				if(risultato == OKAY) {
-					System.out.println("Mostro il menu, il resto scompare.");
 					framePostoAssegnazione.getContentPane().removeAll();
 					framePostoAssegnazione.getContentPane().revalidate();
 					framePostoAssegnazione.getContentPane().repaint();
@@ -124,7 +123,7 @@ public class PostoBoundary {
 					});
 				}
 				else
-					System.out.println("Errore nel codice di assegnazione inserito");
+					JOptionPane.showMessageDialog(framePostoAssegnazione,"Codice di assegnazione errato per questo posto.");
 			}
 		});
 

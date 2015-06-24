@@ -1,6 +1,7 @@
 package server.entity;
 
 import server.database.AssegnazioneDBWrapper;
+import server.database.PostoDBWrapper;
 import server.database.PrenotazioneDBWrapper;
 
 import java.io.Serializable;
@@ -34,9 +35,30 @@ public class Assegnazione implements Serializable {
 	 * @param codiceAssegnazionePosti il codice dell'assegnazione che si vuole andare a recuperare.
 	 */
 	public Assegnazione(String codiceAssegnazionePosti) {
+		this.Posti = new ArrayList<>();
 		AssegnazioneDBWrapper dbWrapper = new AssegnazioneDBWrapper(codiceAssegnazionePosti);
-		if(prenotazione != null)
-			this.prenotazione = new Prenotazione(dbWrapper.getPrenotazione().getCodice());
+		if(dbWrapper.getPrenotazione() != null)
+			this.prenotazione = new Prenotazione(dbWrapper.getPrenotazione().getCodice(),this);
+		ArrayList<PostoDBWrapper> posti = (ArrayList<PostoDBWrapper>) dbWrapper.getPosti();
+		if(posti != null) {
+			for(PostoDBWrapper postoDBWrapper : posti){
+				Tavolo tavolo = new Tavolo(postoDBWrapper.getTavolo().getNumero());
+				Posto posto = new Posto(postoDBWrapper.getCodice(),tavolo);
+				if(postoDBWrapper.getAssegnazione() != null)
+					posto.setAssegnazione(this);
+				posto.setTavolo(tavolo);
+				posto.setCodice(postoDBWrapper.getCodice());
+
+				//Recupero dello stato
+				posto.setStato(posto.getStato(postoDBWrapper.getStato()));
+
+				if(postoDBWrapper.getOccupazione() != null)
+					posto.setOccupazione(postoDBWrapper.getOccupazione());
+
+				this.Posti.add(posto);
+			}
+
+		}
 		this.codiceAssegnazionePosti = dbWrapper.getCodiceAssegnazionePosti();
 	}
 
@@ -70,6 +92,16 @@ public class Assegnazione implements Serializable {
 		if(this.prenotazione != null)
 			dbWrapper.setPrenotazione(new PrenotazioneDBWrapper(prenotazione.getCodice()));
 		dbWrapper.salva();
+		return this;
+	}
+
+	public Assegnazione update() {
+		AssegnazioneDBWrapper AssegnazioneDB = new AssegnazioneDBWrapper();
+
+		AssegnazioneDB.setCodiceAssegnazionePosti(codiceAssegnazionePosti);
+		AssegnazioneDB.setPrenotazione(new PrenotazioneDBWrapper(this.prenotazione.getCodice()));
+		AssegnazioneDB.update();
+
 		return this;
 	}
 

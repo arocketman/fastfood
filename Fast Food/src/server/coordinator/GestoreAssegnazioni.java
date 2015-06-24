@@ -1,5 +1,6 @@
 package server.coordinator;
 
+import server.database.AssegnazioneDBWrapper;
 import server.entity.Assegnazione;
 import server.entity.Posto;
 
@@ -97,9 +98,10 @@ public class GestoreAssegnazioni {
 	}
 
 	private Assegnazione getAssegnazione(String codiceAssegnazione) {
-		for(Assegnazione assegnazione : Assegnazioni){
-			if(assegnazione.getCodiceAssegnazionePosti().equalsIgnoreCase(codiceAssegnazione))
-				return assegnazione;
+		AssegnazioneDBWrapper assegnazioneDBWrapper = AssegnazioneDBWrapper.findByPrimaryKey(codiceAssegnazione);
+		if(assegnazioneDBWrapper != null) {
+			Assegnazione assegnazione = new Assegnazione(codiceAssegnazione);
+			return assegnazione;
 		}
 		return null;
 	}
