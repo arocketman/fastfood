@@ -1,10 +1,6 @@
 package server.entity;
 
-import java.io.Serializable;
-
-public class PostoAssegnato extends State implements Serializable{
-
-	private static final long serialVersionUID = -7158390074287652470L;
+public class PostoAssegnato extends State{
 
 	public PostoAssegnato(Posto p) {
 		super(p);

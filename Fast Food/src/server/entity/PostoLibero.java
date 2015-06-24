@@ -1,8 +1,6 @@
 package server.entity;
 
-import java.io.Serializable;
-
-public class PostoLibero extends State implements Serializable{
+public class PostoLibero extends State{
 
 	public PostoLibero(Posto p) {
 		super(p);

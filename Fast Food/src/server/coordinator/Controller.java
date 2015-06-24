@@ -1,5 +1,6 @@
 package server.coordinator;
 
+import com.google.gson.JsonObject;
 import server.entity.Assegnazione;
 import server.entity.Prenotazione;
 import server.entity.Tavolo;
@@ -28,7 +29,8 @@ public class Controller {
 			System.out.println("Non ci sono tavoli disponibili. (Avvia la prenoatzione)");
 			return null;
 		}
-		return gestoreAssegnazioni.assegnaPosti(tavolo.getPosti(),this.gestoreTavoli);
+		Assegnazione assegnazione =  gestoreAssegnazioni.assegnaPosti(tavolo.getPosti(),this.gestoreTavoli);
+		return assegnazione;
 	}
 
 	public boolean inserisciPrenotazione(String cognome, String telefono,int numPosti) {
@@ -72,7 +74,11 @@ public class Controller {
 		System.out.println(messaggio);
 	}
 
-	public ArrayList<Tavolo> visualizzaStatoFastFood() {
-		return gestoreTavoli.visualizzaStatoFastFood();
+	public ArrayList<JsonObject> visualizzaStatoFastFood() {
+		ArrayList<JsonObject> tavoliJson = new ArrayList<>();
+		for(Tavolo t : gestoreTavoli.visualizzaStatoFastFood()){
+			tavoliJson.add(t.impacchettaPerClient());
+		}
+		return tavoliJson;
 	}
 }
