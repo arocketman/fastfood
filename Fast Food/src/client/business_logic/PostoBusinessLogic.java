@@ -4,7 +4,7 @@ import client.proxy.PostoProxy;
 
 public class PostoBusinessLogic {
 	
-	public int occupaPosto(String codicePosto, int numeroTavolo , String codiceAssegnazione){
+	public String occupaPosto(String codicePosto, int numeroTavolo , String codiceAssegnazione){
 		PostoProxy proxy = new PostoProxy();
 		return proxy.occupaPosto(codicePosto, numeroTavolo, codiceAssegnazione);
 		

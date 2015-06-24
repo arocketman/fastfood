@@ -3,7 +3,9 @@ package server.entity;
 import server.database.AssegnazioneDBWrapper;
 import server.database.PrenotazioneDBWrapper;
 
-public class Prenotazione {
+import java.io.Serializable;
+
+public class Prenotazione implements Serializable  {
 	String codice;
 	String telefono;
 	String cognome;

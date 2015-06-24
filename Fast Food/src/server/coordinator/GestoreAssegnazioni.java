@@ -67,7 +67,7 @@ public class GestoreAssegnazioni {
 		
 	}
 
-	public int verificaAssegnazione(String codicePosto, int numeroTavolo,String codiceAssegnazione) {
+	public String verificaAssegnazione(String codicePosto, int numeroTavolo,String codiceAssegnazione) {
 		Assegnazione assegnazione = getAssegnazione(codiceAssegnazione);
 		if(assegnazione == null)
 			return Controller.ERRORE;
@@ -80,7 +80,7 @@ public class GestoreAssegnazioni {
 						return Controller.OKAY;
 				}
 				else
-						return Controller.PRENOTAZIONE;
+						return assegnazione.getPrenotazione().getCodice();
 			}
 			return Controller.ERRORE;
 		}

@@ -11,10 +11,10 @@ public class Controller {
 	public GestoreTavoli gestoreTavoli;
 	public GestoreAssegnazioni gestoreAssegnazioni;
 	public GestorePrenotazioni gestorePrenotazioni;
-	
-	public static final int OKAY = 1;
-	public static final int ERRORE = -1;
-	public static final int PRENOTAZIONE = 2;
+
+	public static final String OKAY = "1";
+	public static final String ERRORE = "-1";
+	public static final String PRENOTAZIONE = "2";
 	
 	public Controller() {
 		this.gestoreTavoli = new GestoreTavoli();
@@ -35,9 +35,9 @@ public class Controller {
 		return gestorePrenotazioni.inserisciPrenotazione(cognome,telefono,numPosti);
 	}
 	
-	public int occupaPosto(String codicePosto, int numeroTavolo,String codiceAssegnazione){
-		int risultato = gestoreAssegnazioni.verificaAssegnazione(codicePosto,numeroTavolo,codiceAssegnazione);
-		if(risultato == OKAY)
+	public String occupaPosto(String codicePosto, int numeroTavolo,String codiceAssegnazione){
+		String risultato = gestoreAssegnazioni.verificaAssegnazione(codicePosto,numeroTavolo,codiceAssegnazione);
+		if(risultato.equalsIgnoreCase(OKAY))
 			gestoreTavoli.occupaPosto(codicePosto,numeroTavolo);
 		
 		return risultato;
@@ -45,7 +45,7 @@ public class Controller {
 	}
 
 	public boolean liberaPosto(String codicePosto, int numeroTavolo) {
-		gestoreTavoli.liberaPosto(codicePosto,numeroTavolo);
+		gestoreTavoli.liberaPosto(codicePosto, numeroTavolo);
 
 		//Verifico se sono presenti prenotazioni e le gestisco.
 		for(Prenotazione p : gestorePrenotazioni.prenotazioni){

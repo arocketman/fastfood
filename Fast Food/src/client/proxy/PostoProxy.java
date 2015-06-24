@@ -12,7 +12,7 @@ import java.rmi.registry.Registry;
  * Proxy con cui interagisce la business logic del client del posto.
  */
 public class PostoProxy {
-	public int occupaPosto(String codicePosto, int numeroTavolo, String codiceAssegnazione) {
+	public String occupaPosto(String codicePosto, int numeroTavolo, String codiceAssegnazione) {
 		try {
 
 			Registry registry = LocateRegistry.getRegistry("localhost");

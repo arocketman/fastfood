@@ -19,9 +19,9 @@ public class PostoBoundary {
 	private JFrame framePostoAssegnazione;
 	private JTextField textFieldCodiceAssegnazione;
 	
-	public static final int OKAY = 1;
-	public static final int ERRORE = -1;
-	public static final int PRENOTAZIONE = 2;
+	public static final String OKAY = "1";
+	public static final String ERRORE = "-1";
+	public static final String PRENOTAZIONE = "2";
 	
 	String codicePosto;
 	int numeroTavolo;
@@ -86,49 +86,56 @@ public class PostoBoundary {
 		btnOccupaPosto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				PostoBusinessLogic pbl = new PostoBusinessLogic();
-				int risultato = pbl.occupaPosto(codicePosto, numeroTavolo, textFieldCodiceAssegnazione.getText());
-				if(risultato == OKAY) {
-					framePostoAssegnazione.getContentPane().removeAll();
-					framePostoAssegnazione.getContentPane().revalidate();
-					framePostoAssegnazione.getContentPane().repaint();
-					URL imageUrl = getClass().getResource("menu.jpg");
-					try {
-						BufferedImage image = ImageIO.read(imageUrl);
-						JLabel picLabel = new JLabel(new ImageIcon(image));
-						framePostoAssegnazione.getContentPane().add(picLabel);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					JButton btnLiberaTavolo = new JButton("liberaTavolo");
-					btnLiberaTavolo.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							PostoBusinessLogic postoBusinessLogic = new PostoBusinessLogic();
-							if(postoBusinessLogic.liberaPosto(codicePosto,numeroTavolo))
-								System.exit(0);
-						}
-					});
-					framePostoAssegnazione.add(btnLiberaTavolo);
-				}
-				else if(risultato == PRENOTAZIONE){
-					System.out.println("Inserisci anche la prenotazione..");
+				String risultato = pbl.occupaPosto(codicePosto, numeroTavolo, textFieldCodiceAssegnazione.getText());
+				if (risultato.equalsIgnoreCase(OKAY)) {
+					initializeMenu();
+				} else if (risultato.equalsIgnoreCase(ERRORE)) {
+					JOptionPane.showMessageDialog(framePostoAssegnazione, "Codice di assegnazione errato per questo posto.");
+				} else {
 					lblCodiceAssegnazione.setText("Il posto e' stato prenotato! Inserisci codice prenotazione:");
 					textFieldCodiceAssegnazione.setText("");
+					btnOccupaPosto.removeActionListener(this);
 					btnOccupaPosto.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							//TODO: Incompleto...
-							System.out.println("gh");
+							if(risultato.equalsIgnoreCase(textFieldCodiceAssegnazione.getText())){
+								initializeMenu();
+							}
+							else{
+								JOptionPane.showMessageDialog(framePostoAssegnazione,"Codice prenotazione non corrispondente");
+							}
 						}
 					});
 				}
-				else
-					JOptionPane.showMessageDialog(framePostoAssegnazione,"Codice di assegnazione errato per questo posto.");
 			}
 		});
 
 		btnOccupaPosto.setAlignmentX(Component.CENTER_ALIGNMENT);
 		framePostoAssegnazione.getContentPane().add(btnOccupaPosto);
+	}
+
+	public void initializeMenu(){
+		framePostoAssegnazione.getContentPane().removeAll();
+		framePostoAssegnazione.getContentPane().revalidate();
+		framePostoAssegnazione.getContentPane().repaint();
+		URL imageUrl = getClass().getResource("menu.jpg");
+		try {
+			BufferedImage image = ImageIO.read(imageUrl);
+			JLabel picLabel = new JLabel(new ImageIcon(image));
+			framePostoAssegnazione.getContentPane().add(picLabel);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		JButton btnLiberaTavolo = new JButton("liberaTavolo");
+		btnLiberaTavolo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PostoBusinessLogic postoBusinessLogic = new PostoBusinessLogic();
+				if (postoBusinessLogic.liberaPosto(codicePosto, numeroTavolo))
+					System.exit(0);
+			}
+		});
+		framePostoAssegnazione.add(btnLiberaTavolo);
 	}
 	
 }

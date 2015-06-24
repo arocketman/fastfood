@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 public class PostoProxy implements PostoProxyInterface {
 
 	@Override
-	public int occupaPosto(String codicePosto, int numeroTavolo,String codiceAssegnazione) throws RemoteException {
+	public String occupaPosto(String codicePosto, int numeroTavolo,String codiceAssegnazione) throws RemoteException {
 		Controller controller = Server.ic;
 		return controller.occupaPosto(codicePosto, numeroTavolo, codiceAssegnazione);
 	}
