@@ -1,15 +1,15 @@
 package server.entity;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import server.database.AssegnazioneDBWrapper;
 import server.database.PostoDBWrapper;
 import server.database.PrenotazioneDBWrapper;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Assegnazione implements Serializable {
-	
-	private static final long serialVersionUID = 2152899918707217120L;
+public class Assegnazione {
+
 	
 	String codiceAssegnazionePosti;
 	ArrayList<Posto> Posti;
@@ -120,6 +120,18 @@ public class Assegnazione implements Serializable {
 	public void setPosti(ArrayList<Posto> posti) {
 		Posti = posti;
 	}
-	
-	
+
+
+	public JsonObject impacchettaPerClient() {
+		JsonObject assegnazioneObject = new JsonObject();
+		assegnazioneObject.addProperty("assegnazione",codiceAssegnazionePosti);
+		assegnazioneObject.addProperty("tavolo",getNumeroTavolo());
+		JsonArray jsonArray = new JsonArray();
+		for(Posto p : Posti){
+			jsonArray.add(p.impacchettaPerClient());
+		}
+		assegnazioneObject.add("posti",jsonArray);
+		return assegnazioneObject;
+
+	}
 }

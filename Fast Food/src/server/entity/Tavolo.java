@@ -1,11 +1,12 @@
 package server.entity;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import server.database.TavoloDBWrapper;
 
-public class Tavolo implements Serializable{
+import java.util.ArrayList;
+
+public class Tavolo{
 	
 	private int numero;
 	private ArrayList<Posto> posti;
@@ -56,6 +57,17 @@ public class Tavolo implements Serializable{
 		dbWrapper.salva();
 		this.numero = dbWrapper.getNumero();
 		return this;
+	}
+
+	public JsonObject impacchettaPerClient(){
+		JsonObject tavoloJson = new JsonObject();
+		tavoloJson.addProperty("numero", String.valueOf(this.numero));
+		JsonArray jsonArray = new JsonArray();
+		for(Posto p : posti){
+			jsonArray.add(p.impacchettaPerClient());
+		}
+		tavoloJson.add("posti",jsonArray);
+		return tavoloJson;
 	}
 		
 }

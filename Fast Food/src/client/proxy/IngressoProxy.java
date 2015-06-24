@@ -1,7 +1,6 @@
 package client.proxy;
 
 import common.rmi.IngressoProxyInterface;
-import server.entity.Assegnazione;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -13,7 +12,7 @@ import java.rmi.registry.Registry;
  */
 public class IngressoProxy {
 
-	public Assegnazione richiediTavolo(int numPosti){
+	public String richiediTavolo(int numPosti){
 		try{
 			
 			Registry registry = LocateRegistry.getRegistry("localhost");

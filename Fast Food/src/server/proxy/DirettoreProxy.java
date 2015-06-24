@@ -1,9 +1,9 @@
 package server.proxy;
 
+import com.google.gson.JsonObject;
 import common.rmi.DirettoreProxyInterface;
 import server.Server;
 import server.coordinator.Controller;
-import server.entity.Tavolo;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -14,9 +14,13 @@ import java.util.ArrayList;
 public class DirettoreProxy implements DirettoreProxyInterface {
 
     @Override
-    public ArrayList<Tavolo> visualizzaStatoFastFood() throws RemoteException {
+    public ArrayList<String> visualizzaStatoFastFood() throws RemoteException {
         Controller controller = Server.ic;
-        return controller.visualizzaStatoFastFood();
+        ArrayList<String> tavoliString = new ArrayList<>();
+        for(JsonObject tavolo : controller.visualizzaStatoFastFood()){
+            tavoliString.add(tavolo.toString());
+        }
+        return tavoliString;
     }
 
 }

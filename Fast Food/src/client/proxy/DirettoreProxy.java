@@ -1,7 +1,6 @@
 package client.proxy;
 
 import common.rmi.DirettoreProxyInterface;
-import server.entity.Tavolo;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
  */
 public class DirettoreProxy {
 
-    public ArrayList<Tavolo> visualizzaStatoFastFood() {
+    public ArrayList<String> visualizzaStatoFastFood() {
             try{
 
                 Registry registry = LocateRegistry.getRegistry("localhost");

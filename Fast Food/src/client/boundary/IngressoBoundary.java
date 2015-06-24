@@ -1,7 +1,9 @@
 package client.boundary;
 
 import client.business_logic.IngressoBusinessLogic;
-import server.entity.Assegnazione;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import javax.swing.*;
 import java.awt.*;
@@ -63,20 +65,26 @@ public class IngressoBoundary {
 				IngressoBusinessLogic ingressBusinessLogic = new IngressoBusinessLogic();
 				
 				//TODO: validazione dell'input
-				Assegnazione assegnazione = ingressBusinessLogic.richiediTavolo((int)(comboBox.getSelectedItem()));
+				JsonParser parser = new JsonParser();
+				JsonObject assegnazione = (JsonObject) parser.parse(ingressBusinessLogic.richiediTavolo((int) (comboBox.getSelectedItem())));
 				if(assegnazione != null){
 					
 					//Se ho ottenuto un'assegnazione vado a mostrare i suoi contenuti sul client.
 										
-					JLabel lblCodiceAssegnazione = new JLabel("Codice di assegnazione : " + assegnazione.getCodiceAssegnazionePosti());
+					JLabel lblCodiceAssegnazione = new JLabel("Codice di assegnazione : " + assegnazione.get("assegnazione"));
 					lblCodiceAssegnazione.setAlignmentX(Component.CENTER_ALIGNMENT);
 					frame.getContentPane().add(lblCodiceAssegnazione);
 					
-					JLabel lblNumTavolo = new JLabel("Numero Tavolo : " + assegnazione.getNumeroTavolo());
+					JLabel lblNumTavolo = new JLabel("Numero Tavolo : " + assegnazione.get("tavolo"));
 					lblNumTavolo.setAlignmentX(Component.CENTER_ALIGNMENT);
 					frame.getContentPane().add(lblNumTavolo);
-					
-					JLabel lblCodPosti = new JLabel("Posti: " + assegnazione.getCodiciPosti());
+
+					String posti = "";
+					for(JsonElement posto : assegnazione.getAsJsonArray("posti")){
+						posti += posto.getAsJsonObject().get("codice").toString() + ",";
+					}
+
+					JLabel lblCodPosti = new JLabel("Posti: " + posti);
 					lblCodPosti.setAlignmentX(Component.CENTER_ALIGNMENT);
 					frame.getContentPane().add(lblCodPosti);
 					
