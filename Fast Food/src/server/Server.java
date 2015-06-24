@@ -19,7 +19,7 @@ public class Server {
 	public static void main(String[] args) throws RemoteException {
 		Server.inserisciDatiProvaDB();
 
-		System.setProperty("java.rmi.server.hostname","62.98.100.27");
+		//System.setProperty("java.rmi.server.hostname","62.98.100.27");
 		//avvia il registry sul porto 1099 (default)
 		LocateRegistry.createRegistry(1099);
 		//Server.loadFromDB();
