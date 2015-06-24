@@ -66,15 +66,16 @@ public class IngressoBoundary {
 				
 				//TODO: validazione dell'input
 				JsonParser parser = new JsonParser();
-				JsonObject assegnazione = (JsonObject) parser.parse(ingressBusinessLogic.richiediTavolo((int) (comboBox.getSelectedItem())));
-				if(assegnazione != null){
-					
+				String returnedJson = ingressBusinessLogic.richiediTavolo((int) (comboBox.getSelectedItem()));
+				if(returnedJson != null){
+					JsonObject assegnazione = (JsonObject) parser.parse(returnedJson);
+
 					//Se ho ottenuto un'assegnazione vado a mostrare i suoi contenuti sul client.
 										
 					JLabel lblCodiceAssegnazione = new JLabel("Codice di assegnazione : " + assegnazione.get("assegnazione"));
 					lblCodiceAssegnazione.setAlignmentX(Component.CENTER_ALIGNMENT);
 					frame.getContentPane().add(lblCodiceAssegnazione);
-					
+
 					JLabel lblNumTavolo = new JLabel("Numero Tavolo : " + assegnazione.get("tavolo"));
 					lblNumTavolo.setAlignmentX(Component.CENTER_ALIGNMENT);
 					frame.getContentPane().add(lblNumTavolo);
