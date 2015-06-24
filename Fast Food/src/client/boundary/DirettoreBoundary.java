@@ -1,17 +1,19 @@
 package client.boundary;
 
 import client.business_logic.DirettoreBusinessLogic;
-import server.entity.Posto;
-import server.entity.Tavolo;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -94,17 +96,28 @@ public class DirettoreBoundary {
         frame.getContentPane().revalidate();
         frame.getContentPane().repaint();
         DirettoreBusinessLogic direttoreBusinessLogic = new DirettoreBusinessLogic();
-        ArrayList<Tavolo> tavoli = direttoreBusinessLogic.visualizzaStatoFastFood();
-        for(Tavolo t : tavoli){
-            ArrayList<Posto> posti = t.getPosti();
-            JLabel tavoloLabel = new JLabel("Tavolo : " + t.getNumero());
+        ArrayList<String> tavoli = direttoreBusinessLogic.visualizzaStatoFastFood();
+        JsonParser jsonParser = new JsonParser();
+        for(String t : tavoli){
+            JsonObject tavoloJson = (JsonObject) jsonParser.parse(t);
+
+            JsonArray posti = tavoloJson.getAsJsonArray("posti");
+            JLabel tavoloLabel = new JLabel("Tavolo : " + tavoloJson.get("numero"));
             tavoloLabel.setFont(new Font("Arial",Font.BOLD,16));
             frame.getContentPane().add(tavoloLabel);
             for(int i = 0; i < posti.size(); i++){
-                if(posti.get(i).getStatoString().equalsIgnoreCase("occupato")) {
-                    long tempoOccupazione = getDateDiff(posti.get(i).getOccupazione(), new Date(), TimeUnit.MINUTES);
+                if(posti.get(i).getAsJsonObject().get("stato").getAsString().equalsIgnoreCase("occupato")) {
+                    String occupazione = posti.get(i).getAsJsonObject().get("occupazione").getAsString();
+                    DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
+                    Date date = null;
+                    try {
+                        date = format.parse(occupazione);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    long tempoOccupazione = getDateDiff(date, new Date(), TimeUnit.MINUTES);
                     if (tempoOccupazione > 15) {
-                        JLabel postoLabel = new JLabel("Posto " + posti.get(i).getCodice() + " , " + tempoOccupazione + " minuti. ");
+                        JLabel postoLabel = new JLabel("Posto " + posti.get(i).getAsJsonObject().get("codice").getAsString() + " , " + tempoOccupazione + " minuti. ");
                         frame.getContentPane().add(postoLabel);
                     }
                 }
@@ -129,13 +142,17 @@ public class DirettoreBoundary {
         frame.getContentPane().revalidate();
         frame.getContentPane().repaint();
         DirettoreBusinessLogic direttoreBusinessLogic = new DirettoreBusinessLogic();
-        ArrayList<Tavolo> tavoli = direttoreBusinessLogic.visualizzaStatoFastFood();
-        for(Tavolo t : tavoli){
-            ArrayList<Posto> posti = t.getPosti();
-            TableDrawing drawing = new TableDrawing(frame.getWidth(),frame.getHeight(),tavoli.size(),posti.size(),t.getNumero());
+        JsonParser jsonParser = new JsonParser();
+
+        ArrayList<String> tavoli = direttoreBusinessLogic.visualizzaStatoFastFood();
+        for(String t : tavoli){
+            JsonObject tavoloJson = (JsonObject) jsonParser.parse(t);
+
+            JsonArray posti = tavoloJson.getAsJsonArray("posti");
+            TableDrawing drawing = new TableDrawing(frame.getWidth(),frame.getHeight(),tavoli.size(),posti.size(),Integer.valueOf(tavoloJson.get("numero").toString().replace("\"","")));
             frame.getContentPane().add(drawing);
             for(int i = 0; i < posti.size(); i++){
-                ChairDrawing chairDrawing = new ChairDrawing(drawing,i,posti.get(i).getStatoString(),posti.size());
+                ChairDrawing chairDrawing = new ChairDrawing(drawing,i,posti.get(i).getAsJsonObject().get("stato").getAsString(),posti.size());
                 drawing.rectangles.add(chairDrawing);
             }
 

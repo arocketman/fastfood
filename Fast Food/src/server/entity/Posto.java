@@ -1,16 +1,14 @@
 package server.entity;
 
+import com.google.gson.JsonObject;
 import server.database.AssegnazioneDBWrapper;
 import server.database.PostoDBWrapper;
 import server.database.TavoloDBWrapper;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class Posto implements Serializable {
-	
-	private static final long serialVersionUID = 5254230672604941026L;
-	
+public class Posto {
+
 	/* Ogni posto è identificato da un codice alfanumerico di 4 caratteri */
 	private String codice;
 	private Tavolo tavolo;
@@ -193,7 +191,14 @@ public class Posto implements Serializable {
 	public void setOccupazione(Date occupazione) {
 		this.occupazione = occupazione;
 	}
-	
-	
-	
+
+
+	public JsonObject impacchettaPerClient() {
+		JsonObject postoJson = new JsonObject();
+		postoJson.addProperty("codice",codice);
+		postoJson.addProperty("tavolo", String.valueOf(tavolo.getNumero()));
+		postoJson.addProperty("stato",this.getStatoString());
+		postoJson.addProperty("occupazione", String.valueOf(occupazione));
+		return postoJson;
+	}
 }
