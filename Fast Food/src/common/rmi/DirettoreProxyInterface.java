@@ -10,5 +10,5 @@ import java.util.ArrayList;
  * Created by Andrew on 18/06/2015.
  */
 public interface DirettoreProxyInterface extends Remote {
-    public ArrayList<Tavolo> visualizzaStatoFastFood() throws RemoteException;
+    ArrayList<Tavolo> visualizzaStatoFastFood() throws RemoteException;
 }

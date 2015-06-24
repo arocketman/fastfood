@@ -2,10 +2,14 @@ package client.boundary;
 
 import client.business_logic.PostoBusinessLogic;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 
 /**
  * Client del posto . si inizializza con args[0] = codice , args[1] = tavolo
@@ -58,7 +62,7 @@ public class PostoBoundary {
 	 */
 	private void initialize() {
 		framePostoAssegnazione = new JFrame();
-		framePostoAssegnazione.setBounds(100, 100, 450, 300);
+		framePostoAssegnazione.setBounds(100, 100, 650, 450);
 		framePostoAssegnazione.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		framePostoAssegnazione.getContentPane().setLayout(new BoxLayout(framePostoAssegnazione.getContentPane(), BoxLayout.Y_AXIS));
 		
@@ -88,12 +92,21 @@ public class PostoBoundary {
 					framePostoAssegnazione.getContentPane().removeAll();
 					framePostoAssegnazione.getContentPane().revalidate();
 					framePostoAssegnazione.getContentPane().repaint();
+					URL imageUrl = getClass().getResource("menu.jpg");
+					try {
+						BufferedImage image = ImageIO.read(imageUrl);
+						JLabel picLabel = new JLabel(new ImageIcon(image));
+						framePostoAssegnazione.getContentPane().add(picLabel);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 					JButton btnLiberaTavolo = new JButton("liberaTavolo");
 					btnLiberaTavolo.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							PostoBusinessLogic postoBusinessLogic = new PostoBusinessLogic();
-							postoBusinessLogic.liberaPosto(codicePosto,numeroTavolo);
+							if(postoBusinessLogic.liberaPosto(codicePosto,numeroTavolo))
+								System.exit(0);
 						}
 					});
 					framePostoAssegnazione.add(btnLiberaTavolo);
@@ -105,6 +118,7 @@ public class PostoBoundary {
 					btnOccupaPosto.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
+							//TODO: Incompleto...
 							System.out.println("gh");
 						}
 					});

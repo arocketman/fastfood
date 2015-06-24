@@ -150,6 +150,24 @@ public class Server {
 
 
 		ic.gestoreTavoli.aggiungiTavolo(t4);
+/*
+		Tavolo t5 = new Tavolo();
+		Posto ppppp1 = new Posto("QQQQ",t5);
+		Posto ppppp2 = new Posto("RRRR",t5);
+		Posto ppppp3 = new Posto("SSSS",t5);
+		Posto ppppp4 = new Posto("TTTT",t5);
+		Posto ppppp5 = new Posto("UUUU",t5);
+		Posto ppppp6 = new Posto("VVVV",t5);
+		Posto ppppp7 = new Posto("WWWW",t5);
+		Posto ppppp8 = new Posto("XXXX",t5);
+
+		t5.aggiungiPosti(ppppp1,ppppp2,ppppp3,ppppp4,ppppp5,ppppp6,ppppp7,ppppp8);
+		t5.salva();
+		ppppp1.salva();
+		ppppp2.salva();
+
+
+		ic.gestoreTavoli.aggiungiTavolo(t5);*/
 		
 	}
 }
