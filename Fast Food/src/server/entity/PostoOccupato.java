@@ -1,10 +1,11 @@
 package server.entity;
 
+import server.Server;
+
 public class PostoOccupato extends State{
 
 	public PostoOccupato(Posto p) {
 		super(p);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public PostoOccupato(){
@@ -19,7 +20,7 @@ public class PostoOccupato extends State{
 
 	@Override
 	public void rilasciaPosto() {
-		System.out.println("Rilascio il posto.");
+		Server.log("Rilascio il posto: " + this.posto.getCodice());
 		posto.setStato(posto.polib);
 		posto.rimuoviAssegnazione();
 		

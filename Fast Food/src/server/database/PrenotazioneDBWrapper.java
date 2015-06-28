@@ -1,15 +1,10 @@
 package server.database;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
+import org.hibernate.*;
 import server.database.util.HibernateUtil;
+
+import javax.persistence.*;
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "Prenotazioni")
@@ -44,7 +39,6 @@ public class PrenotazioneDBWrapper {
 	}
 	
 	public PrenotazioneDBWrapper() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public PrenotazioneDBWrapper findByPrimaryKey(String codice) {
@@ -78,6 +72,23 @@ public class PrenotazioneDBWrapper {
 		session.close();
 		
 		return this;
+	}
+
+	public static ArrayList<PrenotazioneDBWrapper> findAll(){
+		ArrayList<PrenotazioneDBWrapper>ret = new ArrayList<>();
+
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+
+		org.hibernate.Query query = session.createQuery("from PrenotazioneDBWrapper");
+		ret = (ArrayList<PrenotazioneDBWrapper>)query.list();
+
+		//chiudo la transazione e la sessione
+		session.getTransaction().commit();
+		session.close();
+
+		return ret;
 	}
 
 	public String getCodice() {
@@ -119,6 +130,20 @@ public class PrenotazioneDBWrapper {
 	public void setAssegnazione(AssegnazioneDBWrapper assegnazione) {
 		this.assegnazione = assegnazione;
 	}
-	
+
+	public PrenotazioneDBWrapper update() {
+		//apro la sessione e la transazione
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+
+		session.update(this);
+
+		//chiudo la transazione e la sessione
+		session.getTransaction().commit();
+		session.close();
+
+		return this;
+	}
 	
 }

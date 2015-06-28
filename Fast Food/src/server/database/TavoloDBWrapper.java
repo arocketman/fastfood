@@ -16,7 +16,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.collection.internal.PersistentBag;
 
 import server.database.util.HibernateUtil;
-import server.entity.Posto;
 
 @Entity
 @Table(name = "Tavoli")
@@ -40,7 +39,6 @@ public class TavoloDBWrapper {
 	}
 	
 	public TavoloDBWrapper() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public TavoloDBWrapper findByPrimaryKey(int numero) {

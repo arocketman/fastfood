@@ -23,7 +23,7 @@ public class AssegnazioneDBWrapper {
 	PrenotazioneDBWrapper prenotazione;
 
 	public AssegnazioneDBWrapper(String codice) {
-		AssegnazioneDBWrapper wrapper = this.findByPrimaryKey(codice);
+		AssegnazioneDBWrapper wrapper = findByPrimaryKey(codice);
 		if (wrapper != null) {
 			this.codiceAssegnazionePosti = codice;
 			this.Posti = wrapper.getPosti();
@@ -32,9 +32,8 @@ public class AssegnazioneDBWrapper {
 			throw new RuntimeException("Posto non trovato!");
 		}
 	}
-	
+
 	public AssegnazioneDBWrapper() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public static AssegnazioneDBWrapper findByPrimaryKey(String codice) {
@@ -110,6 +109,8 @@ public class AssegnazioneDBWrapper {
 	public void setPrenotazione(PrenotazioneDBWrapper prenotazione) {
 		this.prenotazione = prenotazione;
 	}
+
+
 	
 	
 	

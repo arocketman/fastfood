@@ -10,7 +10,9 @@ import server.proxy.ServerProxyManager;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Server {
 	
@@ -28,7 +30,7 @@ public class Server {
 		ServerProxyManager lServerProxyManager = new ServerProxyManager();
 		lServerProxyManager.initProxy();
 		
-		System.out.println("Server ready!");
+		log("Server ready!");
 
 	}
 	
@@ -169,5 +171,13 @@ public class Server {
 
 		ic.gestoreTavoli.aggiungiTavolo(t5);*/
 		
+	}
+
+	public static void log(String s){
+		Date dNow = new Date( );
+		SimpleDateFormat ft = new SimpleDateFormat ("hh:mm:ss");
+
+		System.out.println("[" + ft.format(dNow) + "] : " + s);
+
 	}
 }

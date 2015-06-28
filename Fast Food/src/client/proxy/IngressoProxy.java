@@ -22,7 +22,6 @@ public class IngressoProxy {
 		}catch(RemoteException e){
 			e.printStackTrace();
 		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -40,7 +39,6 @@ public class IngressoProxy {
 		}catch(RemoteException e){
 			e.printStackTrace();
 		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

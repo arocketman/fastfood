@@ -21,7 +21,6 @@ public class PostoBoundary {
 	
 	public static final String OKAY = "1";
 	public static final String ERRORE = "-1";
-	public static final String PRENOTAZIONE = "2";
 	
 	String codicePosto;
 	int numeroTavolo;

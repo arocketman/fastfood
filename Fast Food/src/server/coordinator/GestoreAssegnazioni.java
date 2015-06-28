@@ -1,5 +1,6 @@
 package server.coordinator;
 
+import server.Server;
 import server.database.AssegnazioneDBWrapper;
 import server.entity.Assegnazione;
 import server.entity.Posto;
@@ -20,17 +21,17 @@ public class GestoreAssegnazioni {
 		this.timers = new ArrayList<TimerCinqueMinuti>();
 	}
 
-	public Assegnazione assegnaPosti(ArrayList<Posto> posti,GestoreTavoli gestoreTavoli) {
+	public Assegnazione assegnaPosti(ArrayList<Posto> posti,GestoreTavoli gestoreTavoli,Controller controller) {
 		SecureRandom random = new SecureRandom();
 		String codiceAlfaNumerico = new BigInteger(130, random).toString(32).substring(0,5);
 		Assegnazione assegnazione = new Assegnazione(codiceAlfaNumerico,posti);
 		Assegnazioni.add(assegnazione);
-		System.out.println("Assegnato nuovo tavolo con posti: " + assegnazione.getCodiceAssegnazionePosti());
+		Server.log("Assegnato nuovo tavolo con posti: " + assegnazione.getCodiceAssegnazionePosti());
 		
 		//Avvio timer all'assegnazione.
 		for(Posto p : posti){
 			TimerCinqueMinuti timer = new TimerCinqueMinuti(p.getCodice());
-			timer.schedule(new TimerCinqueMinutiTask(p,gestoreTavoli), 200000);
+			timer.schedule(new TimerCinqueMinutiTask(p,gestoreTavoli,controller), 300000);
 			timers.add(timer);
 		}
 		
@@ -50,19 +51,22 @@ public class GestoreAssegnazioni {
 
 		Posto postoAssegnato;
 		GestoreTavoli gestoreTavoli;
+		Controller controller;
 		
-		public TimerCinqueMinutiTask(Posto posto,GestoreTavoli gestoreTavoli){
+		public TimerCinqueMinutiTask(Posto posto,GestoreTavoli gestoreTavoli,Controller controller){
 			this.postoAssegnato = posto;
 			this.gestoreTavoli = gestoreTavoli;
+			this.controller = controller;
 		}
 		
 		@Override
 		public void run() {
-			postoAssegnato.rilasciaPosto();
-			postoAssegnato.setAssegnazione(null);
-			postoAssegnato.update();
-			System.out.println("Rilascio il posto : " + postoAssegnato.getCodice() + " (timer scaduto).");
-			gestoreTavoli.updateListaPosti();
+				postoAssegnato.rilasciaPosto();
+				postoAssegnato.setAssegnazione(null);
+				postoAssegnato.update();
+				Server.log("Rilascio il posto : " + postoAssegnato.getCodice() + " (timer scaduto).");
+				controller.verificaPrenotazioni();
+				gestoreTavoli.updateListaPosti();
 		}
 		
 	}
@@ -90,7 +94,7 @@ public class GestoreAssegnazioni {
 	private void fermaTimer(String codicePosto) {
 		for(TimerCinqueMinuti timerCinqueMinuti : timers){
 			if(timerCinqueMinuti.id.equalsIgnoreCase(codicePosto)){
-				System.out.println("Timer cinque minuti per posto assegnato : " + codicePosto + " viene cancellato per occupazione posto");
+				Server.log("Timer cinque minuti per posto assegnato : " + codicePosto + " viene cancellato per occupazione posto");
 				timerCinqueMinuti.cancel();
 			}
 		}

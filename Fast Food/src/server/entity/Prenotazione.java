@@ -29,7 +29,6 @@ public class Prenotazione  {
 	 * @param codice
 	 */
 	public Prenotazione(String codice) {
-		//TODO: RIVEDERE.
 		PrenotazioneDBWrapper dbWrapper = new PrenotazioneDBWrapper(codice);
 		this.codice = dbWrapper.getCodice();
 		this.telefono = dbWrapper.getTelefono();
@@ -43,7 +42,6 @@ public class Prenotazione  {
 	 * @param codice
 	 */
 	public Prenotazione(String codice,Assegnazione assegnazione) {
-		//TODO: RIVEDERE.
 		PrenotazioneDBWrapper dbWrapper = new PrenotazioneDBWrapper(codice);
 		this.codice = dbWrapper.getCodice();
 		this.telefono = dbWrapper.getTelefono();
@@ -99,6 +97,12 @@ public class Prenotazione  {
 		dbWrapper.salva();
 		return this;
 	}
-	
-	
+
+	public Assegnazione getAssegnazione() {
+		return assegnazione;
+	}
+
+	public void setAssegnazione(Assegnazione assegnazione) {
+		this.assegnazione = assegnazione;
+	}
 }

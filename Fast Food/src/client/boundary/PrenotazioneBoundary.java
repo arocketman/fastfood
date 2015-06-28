@@ -70,9 +70,9 @@ public class PrenotazioneBoundary {
 					JLabel lblOkayPrenotazione = new JLabel("Prenotazione effettuata ");
 					lblOkayPrenotazione.setAlignmentX(Component.CENTER_ALIGNMENT);
 					frame.getContentPane().add(lblOkayPrenotazione);
-					
 					frame.revalidate();
 					frame.repaint();
+					frame.setVisible(false);
 				}
 				else{
 					System.out.println("errore prenotazione");

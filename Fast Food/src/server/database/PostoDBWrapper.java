@@ -1,18 +1,11 @@
 package server.database;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-
 import server.database.util.HibernateUtil;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="Posti")
@@ -50,7 +43,6 @@ public class PostoDBWrapper {
 	}
 	
 	public PostoDBWrapper() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public PostoDBWrapper findByPrimaryKey(String codice) {

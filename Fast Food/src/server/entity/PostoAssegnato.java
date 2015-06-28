@@ -1,5 +1,7 @@
 package server.entity;
 
+import server.Server;
+
 public class PostoAssegnato extends State{
 
 	public PostoAssegnato(Posto p) {
@@ -18,14 +20,14 @@ public class PostoAssegnato extends State{
 
 	@Override
 	public void rilasciaPosto() {
-		System.out.println("Rilascio il posto.");
+		Server.log("Rilascio il posto: " + this.posto.getCodice());
 		posto.setStato(posto.polib);
 		
 	}
 
 	@Override
 	public void confermaOccupazione() {
-		System.out.println("Occupazione confermata.");
+		Server.log("Occupazione confermata.");
 		posto.setStato(posto.poocc);
 		
 	}

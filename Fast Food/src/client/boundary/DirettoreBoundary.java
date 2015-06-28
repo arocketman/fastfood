@@ -152,7 +152,7 @@ public class DirettoreBoundary {
             TableDrawing drawing = new TableDrawing(frame.getWidth(),frame.getHeight(),tavoli.size(),posti.size(),Integer.valueOf(tavoloJson.get("numero").toString().replace("\"","")));
             frame.getContentPane().add(drawing);
             for(int i = 0; i < posti.size(); i++){
-                ChairDrawing chairDrawing = new ChairDrawing(drawing,i,posti.get(i).getAsJsonObject().get("stato").getAsString(),posti.size());
+                ChairDrawing chairDrawing = new ChairDrawing(drawing,i,posti.get(i).getAsJsonObject().get("stato").getAsString());
                 drawing.rectangles.add(chairDrawing);
             }
 
@@ -209,13 +209,10 @@ class ChairDrawing extends Rectangle {
     int x,y,w,h;
     Color stato;
 
-    public ChairDrawing(TableDrawing drawing, int numeroPosto , String stato , int numeroPosti) {
-        //TODO: Le dimensioni della sedia sono in base al tavolo con maggior numero di posti.
+    public ChairDrawing(TableDrawing drawing, int numeroPosto , String stato) {
         super();
         int tavX = drawing.x;
         int tavY = drawing.y;
-        int tabW = drawing.w;
-        int tabH = drawing.h;
         setStatoColor(stato);
         int offset = DirettoreBoundary.DIM_POSTO;
         x = tavX + (numeroPosto * offset);
@@ -225,7 +222,6 @@ class ChairDrawing extends Rectangle {
     }
 
     private void setStatoColor(String stato){
-        //TODO: Potrebbe anche fare direttamente else, eliminare dopo testing approfondito.
         if(stato.equalsIgnoreCase("libero"))
             this.stato = Color.green;
         else if(stato.equalsIgnoreCase("assegnato"))

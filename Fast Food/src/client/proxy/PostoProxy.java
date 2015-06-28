@@ -22,7 +22,6 @@ public class PostoProxy {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -38,7 +37,6 @@ public class PostoProxy {
 			e.printStackTrace();
 			return false;
 		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
