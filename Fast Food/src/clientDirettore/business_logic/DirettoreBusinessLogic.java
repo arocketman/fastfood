@@ -1,6 +1,6 @@
-package client.business_logic;
+package clientDirettore.business_logic;
 
-import client.proxy.DirettoreProxy;
+import clientDirettore.proxy.DirettoreProxy;
 
 import java.util.ArrayList;
 

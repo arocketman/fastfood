@@ -1,6 +1,6 @@
-package client.boundary;
+package clientDirettore.boundary;
 
-import client.business_logic.DirettoreBusinessLogic;
+import clientDirettore.business_logic.DirettoreBusinessLogic;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -25,7 +25,7 @@ public class DirettoreBoundary {
         public static final int DIM_POSTO = 26;
 
 
-        /** La frame del client di ingresso **/
+        /** La frame del clientPosto di ingresso **/
         private JFrame frame;
 
         public static void main(String[] args) {

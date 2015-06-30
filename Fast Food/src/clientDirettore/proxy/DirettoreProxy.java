@@ -1,4 +1,4 @@
-package client.proxy;
+package clientDirettore.proxy;
 
 import common.rmi.DirettoreProxyInterface;
 
@@ -9,7 +9,7 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 
 /**
- * Proxy con cui interagisce la business logic del client Direttore.
+ * Proxy con cui interagisce la business logic del clientPosto Direttore.
  */
 public class DirettoreProxy {
 

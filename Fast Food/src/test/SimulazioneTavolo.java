@@ -1,6 +1,6 @@
 package test;
 
-import client.boundary.PostoBoundary;
+import clientPosto.boundary.PostoBoundary;
 
 public class SimulazioneTavolo {
 

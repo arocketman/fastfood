@@ -10,8 +10,7 @@ import java.util.ArrayList;
 
 public class GestorePrenotazioni {
 
-	ArrayList<Prenotazione> prenotazioni = new ArrayList<Prenotazione>();
-	int index = 0;
+	ArrayList<Prenotazione> prenotazioni = new ArrayList<>();
 	
 	public boolean inserisciPrenotazione(String cognome, String telefono,int numPosti) {
 		SecureRandom random = new SecureRandom();
