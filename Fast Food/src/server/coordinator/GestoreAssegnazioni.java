@@ -17,7 +17,7 @@ public class GestoreAssegnazioni {
 	ArrayList<TimerCinqueMinuti> timers;
 	
 	public GestoreAssegnazioni(){
-		this.Assegnazioni = new ArrayList<Assegnazione>();
+		this.Assegnazioni = new ArrayList<Assegnazione>();				//asdasdasd
 		this.timers = new ArrayList<TimerCinqueMinuti>();
 	}
 
@@ -61,11 +61,11 @@ public class GestoreAssegnazioni {
 		
 		@Override
 		public void run() {
-				postoAssegnato.rilasciaPosto();
+				postoAssegnato.rilasciaPosto();									//first Commit
 				postoAssegnato.setAssegnazione(null);
 				postoAssegnato.update();
 				Server.log("Rilascio il posto : " + postoAssegnato.getCodice() + " (timer scaduto).");
-				controller.verificaPrenotazioni();
+				controller.verificaPrenotazioni();								//second Commit
 				gestoreTavoli.updateListaPosti();
 		}
 		
