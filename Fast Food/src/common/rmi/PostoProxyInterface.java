@@ -7,6 +7,7 @@ public interface PostoProxyInterface extends Remote {
 
 	String occupaPosto(String codicePosto, int numeroTavolo , String codiceAssegnazione) throws RemoteException;
 	boolean liberaPosto(String codicePosto, int numeroTavolo) throws RemoteException;
+	boolean occupaPostoCodPrenotazione(String codicePrenotazione, String codiceAssegnazione, String codicePosto) throws RemoteException;
 
 
 	}

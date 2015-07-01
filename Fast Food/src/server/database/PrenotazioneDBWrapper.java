@@ -34,7 +34,7 @@ public class PrenotazioneDBWrapper {
 			this.numeroPosti = wrapper.getNumeroPosti();
 			this.assegnazione = wrapper.getAssegnazione();
 		} else {
-			throw new RuntimeException("Posto non trovato!");
+			throw new RuntimeException("Prenotazione non trovato!");
 		}
 	}
 	

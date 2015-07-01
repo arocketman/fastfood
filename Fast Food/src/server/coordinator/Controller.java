@@ -90,4 +90,14 @@ public class Controller {
 		}
 		return tavoliJson;
 	}
+
+	public boolean occupaPostoCodPrenotazione(String codicePrenotazione, String codiceAssegnazione, String codicePosto) {
+		if(gestorePrenotazioni.occupaPostoCodPrenotazione(codicePrenotazione,codiceAssegnazione)){
+			//Okay. Fermo il timer..
+			gestoreAssegnazioni.fermaTimer(codicePosto);
+			gestoreTavoli.occupaPosto(codicePosto,1);
+			return true;
+		}
+		return false;
+	}
 }

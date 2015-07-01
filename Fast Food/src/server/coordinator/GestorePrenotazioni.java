@@ -38,5 +38,8 @@ public class GestorePrenotazioni {
 
 	}
 
-	
+	public boolean occupaPostoCodPrenotazione(String codicePrenotazione, String codiceAssegnazione) {
+		PrenotazioneDBWrapper dbWrapper = new PrenotazioneDBWrapper(codicePrenotazione);
+		return dbWrapper.getAssegnazione().getCodiceAssegnazionePosti().equalsIgnoreCase(codiceAssegnazione);
+	}
 }

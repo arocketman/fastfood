@@ -41,4 +41,20 @@ public class PostoProxy {
 			return false;
 		}
 	}
+
+	public boolean occupaPostoCodPrenotazione(String codicePrenotazione, String codiceAssegnazione, String codicePosto){
+		try {
+
+			Registry registry = LocateRegistry.getRegistry("localhost");
+			PostoProxyInterface proxy = (PostoProxyInterface) registry.lookup("posto_proxy");
+			return proxy.occupaPostoCodPrenotazione(codicePrenotazione, codiceAssegnazione, codicePosto);
+
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
 }

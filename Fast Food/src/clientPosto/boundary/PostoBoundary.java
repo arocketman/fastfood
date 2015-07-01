@@ -37,7 +37,7 @@ public class PostoBoundary {
 					if(args.length > 0)
 						window = new PostoBoundary(args[0],Integer.valueOf(args[1]));
 					else
-						window = new PostoBoundary("AAAA",1);
+						window = new PostoBoundary("CCCC",1);
 
 					window.framePostoAssegnazione.setVisible(true);
 				} catch (Exception e) {
@@ -85,7 +85,8 @@ public class PostoBoundary {
 		btnOccupaPosto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				PostoBusinessLogic pbl = new PostoBusinessLogic();
-				String risultato = pbl.occupaPosto(codicePosto, numeroTavolo, textFieldCodiceAssegnazione.getText());
+				String codiceAssegnazione = textFieldCodiceAssegnazione.getText();
+				String risultato = pbl.occupaPosto(codicePosto, numeroTavolo, codiceAssegnazione);
 				if (risultato.equalsIgnoreCase(OKAY)) {
 					initializeMenu();
 				} else if (risultato.equalsIgnoreCase(ERRORE)) {
@@ -97,7 +98,7 @@ public class PostoBoundary {
 					btnOccupaPosto.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							if(risultato.equalsIgnoreCase(textFieldCodiceAssegnazione.getText())){
+							if((pbl.occupaPostoCodPrenotazione(textFieldCodiceAssegnazione.getText(),codiceAssegnazione,codicePosto))){
 								initializeMenu();
 							}
 							else{

@@ -14,4 +14,10 @@ public class PostoBusinessLogic {
 		PostoProxy proxy = new PostoProxy();
 		return proxy.liberaPosto(codicePosto,numeroTavolo);
 	}
+
+	public boolean occupaPostoCodPrenotazione(String codicePrenotazione, String codiceAssegnazione, String codicePosto){
+		PostoProxy proxy = new PostoProxy();
+		return proxy.occupaPostoCodPrenotazione(codicePrenotazione,codiceAssegnazione,codicePosto);
+	}
+
 }

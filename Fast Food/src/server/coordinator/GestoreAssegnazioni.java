@@ -38,7 +38,7 @@ public class GestoreAssegnazioni {
 		
 		return assegnazione;
 	}
-	
+
 	class TimerCinqueMinuti extends Timer{
 		String id; 
 		
@@ -91,7 +91,7 @@ public class GestoreAssegnazioni {
 		
 	}
 
-	private void fermaTimer(String codicePosto) {
+	public void fermaTimer(String codicePosto) {
 		for(TimerCinqueMinuti timerCinqueMinuti : timers){
 			if(timerCinqueMinuti.id.equalsIgnoreCase(codicePosto)){
 				Server.log("Timer cinque minuti per posto assegnato : " + codicePosto + " viene cancellato per occupazione posto");

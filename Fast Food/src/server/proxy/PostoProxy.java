@@ -20,4 +20,11 @@ public class PostoProxy implements PostoProxyInterface {
 		return controller.liberaPosto(codicePosto,numeroTavolo);
 	}
 
+	@Override
+	public boolean occupaPostoCodPrenotazione(String codicePrenotazione, String codiceAssegnazione,String codicePosto) throws RemoteException {
+		Controller controller = Server.ic;
+		return controller.occupaPostoCodPrenotazione(codicePrenotazione,codiceAssegnazione,codicePosto);
+	}
+
+
 }
