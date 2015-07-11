@@ -175,7 +175,7 @@ public class Server {
 
 	public static void log(String s){
 		Date dNow = new Date( );
-		SimpleDateFormat ft = new SimpleDateFormat ("hh:mm:ss");
+		SimpleDateFormat ft = new SimpleDateFormat ("HH:mm:ss");
 
 		System.out.println("[" + ft.format(dNow) + "] : " + s);
 

@@ -25,6 +25,9 @@ public class PrenotazioneDBWrapper {
 	@OneToOne
 	AssegnazioneDBWrapper assegnazione;
 	
+	//@OneToOne
+	//PrenotazioneDBWrapper prenotazioneSuccessiva;
+	
 	public PrenotazioneDBWrapper(String codice) {
 		PrenotazioneDBWrapper wrapper = this.findByPrimaryKey(codice);
 		if (wrapper != null) {
@@ -36,6 +39,7 @@ public class PrenotazioneDBWrapper {
 		} else {
 			throw new RuntimeException("Prenotazione non trovato!");
 		}
+		//System.out.println(wrapper.prenotazioneSuccessiva);
 	}
 	
 	public PrenotazioneDBWrapper() {
