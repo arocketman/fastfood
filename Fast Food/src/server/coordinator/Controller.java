@@ -1,10 +1,12 @@
 package server.coordinator;
 
 import com.google.gson.JsonObject;
+
 import server.Server;
 import server.entity.Assegnazione;
 import server.entity.Prenotazione;
 import server.entity.Tavolo;
+import server.proxyService.smsInterface;
 
 import java.util.ArrayList;
 
@@ -81,6 +83,13 @@ public class Controller {
 	private void inviaSMS(String telefono, String messaggio) {
 		Server.log("invio sms a : " + telefono);
 		Server.log(messaggio);
+		smsInterface smsInterface=new smsInterface();
+		Boolean response=smsInterface.sendSms("+39"+telefono, messaggio, 0);
+		if(response){
+			Server.log("SMS inviato");
+		}else{
+			Server.log("Impossibile inviare SMS");
+		}
 	}
 
 	public ArrayList<JsonObject> visualizzaStatoFastFood() {
