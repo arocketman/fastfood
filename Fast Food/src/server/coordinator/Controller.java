@@ -18,7 +18,6 @@ public class Controller {
 
 	public static final String OKAY = "1";
 	public static final String ERRORE = "-1";
-	public static final String PRENOTAZIONE = "2";
 	
 	public Controller() {
 		this.gestoreTavoli = new GestoreTavoli();
