@@ -15,7 +15,7 @@ public class GestoreTavoli {
 		tavoli = new ArrayList<Tavolo>();
 	}
 		
-	public Tavolo richiediTavolo(int numPosti) {
+	public synchronized Tavolo richiediTavolo(int numPosti) {
 		for(Tavolo tavolo : tavoli){
 			int postiLiberi = 0;
 			
