@@ -48,7 +48,8 @@ public class Posto {
 	
 	public Posto(String codice){
 		PostoDBWrapper postoDBWrapper = new PostoDBWrapper(codice);
-		this.assegnazione = new Assegnazione(postoDBWrapper.getAssegnazione().getCodiceAssegnazionePosti());
+		if(postoDBWrapper.getAssegnazione() != null)
+			this.assegnazione = new Assegnazione(postoDBWrapper.getAssegnazione().getCodiceAssegnazionePosti());
 		this.tavolo = new Tavolo(postoDBWrapper.getTavolo().getNumero());
 		this.codice = postoDBWrapper.getCodice();
 		

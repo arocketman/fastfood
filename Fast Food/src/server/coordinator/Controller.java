@@ -103,8 +103,7 @@ public class Controller {
 		if(gestorePrenotazioni.occupaPostoCodPrenotazione(codicePrenotazione,codiceAssegnazione)){
 			//Okay. Fermo il timer..
 			gestoreAssegnazioni.fermaTimer(codicePosto);
-			gestoreTavoli.occupaPosto(codicePosto,1);
-			return true;
+			return gestoreTavoli.occupaPosto(codicePosto,1);
 		}
 		return false;
 	}

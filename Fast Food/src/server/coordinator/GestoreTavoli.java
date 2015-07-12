@@ -59,12 +59,15 @@ public class GestoreTavoli {
 		tavoli.add(tavolo);
 	}
 
-	public void occupaPosto(String codicePosto, int numeroTavolo) {
+	public boolean occupaPosto(String codicePosto, int numeroTavolo) {
 		Posto posto = new Posto(codicePosto);
+		if(posto.getAssegnazione() == null)
+			return false;
 		posto.confermaOccupazione();
 		posto.setOccupazione(new Date());
 		posto.update();
 		updateListaPosti();
+		return true;
 	}
 
 	public boolean liberaPosto(String codicePosto, int numeroTavolo) {
