@@ -62,6 +62,7 @@ public class GestoreAssegnazioni {
 		@Override
 		public void run() {
 			controller.liberaPosto(postoAssegnato.getCodice(), postoAssegnato.getTavolo().getNumero());
+			eliminaTimerDaLista(postoAssegnato.getCodice());
 		}
 		
 	}
@@ -89,12 +90,24 @@ public class GestoreAssegnazioni {
 	public void fermaTimer(String codicePosto) {
 		for(TimerCinqueMinuti timerCinqueMinuti : timers){
 			if(timerCinqueMinuti.id.equalsIgnoreCase(codicePosto)){
+				eliminaTimerDaLista(codicePosto);
 				Server.log("Timer cinque minuti per posto assegnato : " + codicePosto + " viene cancellato per occupazione posto");
 				timerCinqueMinuti.cancel();
 			}
 		}
-		
+
+
 	}
+
+	private void eliminaTimerDaLista(String codiceTimer){
+		TimerCinqueMinuti tim = null;
+		for(TimerCinqueMinuti timerCinqueMinuti : timers) {
+			if(timerCinqueMinuti.id.equalsIgnoreCase(codiceTimer))
+				tim = timerCinqueMinuti;
+		}
+		if(tim != null)
+			timers.remove(tim);
+		}
 
 	private Assegnazione getAssegnazione(String codiceAssegnazione) {
 		AssegnazioneDBWrapper assegnazioneDBWrapper = AssegnazioneDBWrapper.findByPrimaryKey(codiceAssegnazione);
