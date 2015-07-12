@@ -228,7 +228,7 @@ public class IngressoBoundary {
                 			msg+="Il numero di telefono non può contenere caratteri<br>";
                 		}
                 		if(TelNumber.length()!=10){
-                			msg+="Il numero di telefono deve essere di 10 caratteri<br>";
+                			msg+="Il numero di telefono deve essere di 10 numeri<br>";
                 		}
     					DialogShowResponse dialogShowResponse=new DialogShowResponse("<html>"+msg+"</html>");
     					dialogShowResponse.setVisible(true);
