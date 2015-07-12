@@ -37,7 +37,7 @@ public class PostoBoundary {
 					if(args.length > 0)
 						window = new PostoBoundary(args[0],Integer.valueOf(args[1]));
 					else
-						window = new PostoBoundary("CCCC",1);
+						window = new PostoBoundary("DDDD",1);
 
 					window.framePostoAssegnazione.setVisible(true);
 				} catch (Exception e) {

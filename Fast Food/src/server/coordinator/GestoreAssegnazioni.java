@@ -32,7 +32,9 @@ public class GestoreAssegnazioni {
 		for(Posto p : posti){
 			TimerCinqueMinuti timer = new TimerCinqueMinuti(p.getCodice());
 			timer.schedule(new TimerCinqueMinutiTask(p,gestoreTavoli,controller), 60000);
-			timers.add(timer);
+			synchronized(timers){
+				timers.add(timer);
+			}
 		}
 		
 		
@@ -88,26 +90,31 @@ public class GestoreAssegnazioni {
 	}
 
 	public void fermaTimer(String codicePosto) {
-		for(TimerCinqueMinuti timerCinqueMinuti : timers){
-			if(timerCinqueMinuti.id.equalsIgnoreCase(codicePosto)){
-				eliminaTimerDaLista(codicePosto);
-				Server.log("Timer cinque minuti per posto assegnato : " + codicePosto + " viene cancellato per occupazione posto");
-				timerCinqueMinuti.cancel();
+		boolean canceled = false;
+		synchronized(timers){
+			for(TimerCinqueMinuti timerCinqueMinuti : timers){
+				if(timerCinqueMinuti.id.equalsIgnoreCase(codicePosto)){
+					Server.log("Timer cinque minuti per posto assegnato : " + codicePosto + " viene cancellato per occupazione posto");
+					timerCinqueMinuti.cancel();
+					canceled=true;
+				}
 			}
 		}
-
-
+		if(canceled)
+			eliminaTimerDaLista(codicePosto);
 	}
 
 	private void eliminaTimerDaLista(String codiceTimer){
-		TimerCinqueMinuti tim = null;
-		for(TimerCinqueMinuti timerCinqueMinuti : timers) {
-			if(timerCinqueMinuti.id.equalsIgnoreCase(codiceTimer))
-				tim = timerCinqueMinuti;
+		synchronized(timers){
+			TimerCinqueMinuti tim = null;
+			for(TimerCinqueMinuti timerCinqueMinuti : timers) {
+				if(timerCinqueMinuti.id.equalsIgnoreCase(codiceTimer))
+					tim = timerCinqueMinuti;
+			}
+			if(tim != null)
+				timers.remove(tim);
 		}
-		if(tim != null)
-			timers.remove(tim);
-		}
+	}
 
 	private Assegnazione getAssegnazione(String codiceAssegnazione) {
 		AssegnazioneDBWrapper assegnazioneDBWrapper = AssegnazioneDBWrapper.findByPrimaryKey(codiceAssegnazione);
