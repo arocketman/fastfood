@@ -1,5 +1,6 @@
 package server.coordinator;
 
+import server.Server;
 import server.database.AssegnazioneDBWrapper;
 import server.database.PrenotazioneDBWrapper;
 import server.entity.Prenotazione;
@@ -7,9 +8,6 @@ import server.entity.Prenotazione;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.ListIterator;
 
 public class GestorePrenotazioni {
@@ -23,10 +21,9 @@ public class GestorePrenotazioni {
 		prenotazioni.add(prenotazione);
 		ListIterator listIteratorPrenotazioni=prenotazioni.listIterator(prenotazioni.indexOf(prenotazione));
 		Prenotazione prenotazionePrecedente=null;
-		System.out.println("InseritaPrenotazione:"+prenotazione.getCodice());
+		Server.log("Inserita Prenotazione: "+prenotazione.getCodice());
 		if(listIteratorPrenotazioni.hasPrevious()){
 			prenotazionePrecedente=(Prenotazione)listIteratorPrenotazioni.previous();
-			System.out.println(" prenotazionePrecedente:"+prenotazionePrecedente+"-InserisciPrenotazione");
 		}	
 		
 		prenotazione.setPrenotazionePrecedente(prenotazionePrecedente);
@@ -44,7 +41,7 @@ public class GestorePrenotazioni {
 				index=prenotazioni.indexOf(prenotazione);
 			}
 		}
-		System.out.println("AssegnazionePrenotazione:"+codicePrenotazione+" position:"+index);
+		//System.out.println("AssegnazionePrenotazione:"+codicePrenotazione+" position:"+index);
 		if(index!=-1){
 			ListIterator listIteratorPrenotazioni=prenotazioni.listIterator(index);
 			Prenotazione prenotazionePrecedente=null;
@@ -61,11 +58,11 @@ public class GestorePrenotazioni {
 			}
 			if(prenotazionePrecedente!=null){
 				prenotazioneDBWrapper.setPrenotazionePrecedente(new PrenotazioneDBWrapper(prenotazionePrecedente.getCodice()));
-				System.out.println("prenotazionePrecedente:"+prenotazionePrecedente.getCodice());
+				//System.out.println("prenotazionePrecedente:"+prenotazionePrecedente.getCodice());
 			}
 			if(prenotazioneSuccessiva!=null){
 				prenotazioneDBWrapper.setPrenotazioneSuccessiva(new PrenotazioneDBWrapper(prenotazioneSuccessiva.getCodice()));		
-				System.out.println("prenotazioneSuccessiva:"+prenotazioneSuccessiva.getCodice());
+				//System.out.println("prenotazioneSuccessiva:"+prenotazioneSuccessiva.getCodice());
 			}	
 		}
 		prenotazioneDBWrapper.update();
@@ -78,14 +75,14 @@ public class GestorePrenotazioni {
 		//Aggiorno il db.
 		for(PrenotazioneDBWrapper prenotazioneDBWrapper : PrenotazioneDBWrapper.findAll()){
 			Prenotazione prenotazione = new Prenotazione(prenotazioneDBWrapper.getCodice(),prenotazioneDBWrapper.getCognome(),prenotazioneDBWrapper.getTelefono(),prenotazioneDBWrapper.getNumeroPosti());
-			System.out.println("refresh :"+prenotazioneDBWrapper.getCodice());
+			Server.log("Refresh della prenotazione : " + prenotazioneDBWrapper.getCodice());
 			if(prenotazioneDBWrapper.getPrenotazionePrecedente()!=null){
 				prenotazione.setPrenotazionePrecedente(new Prenotazione(prenotazioneDBWrapper.getPrenotazionePrecedente().getCodice()));
-				System.out.println("refresh prenotazionePrecedente:"+prenotazione.getPrenotazionePrecedente().getCodice());
+				Server.log("Refresh prenotazioni in corso, prenotazionePrecedente: " + prenotazione.getPrenotazionePrecedente().getCodice());
 			}
 			if(prenotazioneDBWrapper.getPrenotazioneSuccessiva()!=null){
 				prenotazione.setPrenotazioneSuccessiva(new Prenotazione(prenotazioneDBWrapper.getPrenotazioneSuccessiva().getCodice()));
-				System.out.println("refresh prenotazioneSuccessiva:"+prenotazione.getPrenotazioneSuccessiva().getCodice());
+				Server.log("refresh prenotazioneSuccessiva: " + prenotazione.getPrenotazioneSuccessiva().getCodice());
 			}
 			
 			//Prendo solo le prenotazioni non assegnate.
@@ -104,13 +101,13 @@ public class GestorePrenotazioni {
 				}
 			}
 			prenotazioni.add(primaPrenotazione);
-			System.out.println("Riordino Aggiunto:"+primaPrenotazione.getCodice());
+			Server.log("Riordino Aggiunto:"+primaPrenotazione.getCodice());
 			prenot=primaPrenotazione;
 			while(prenot.getPrenotazioneSuccessiva()!=null){
-				System.out.println("Riordino:"+prenot.getCodice());
+				Server.log("Riordino:" + prenot.getCodice());
 				prenot=prenot.getPrenotazioneSuccessiva();
 				prenotazioni.add(prenot);
-				System.out.println("Riordino Aggiunto:"+prenot.getCodice());
+				Server.log("Riordino Aggiunto:" + prenot.getCodice());
 			}
 		}
 		

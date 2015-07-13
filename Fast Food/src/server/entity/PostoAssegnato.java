@@ -14,7 +14,7 @@ public class PostoAssegnato extends State{
 
 	@Override
 	public void assegnaPosto(Assegnazione assegnazione) {
-		System.out.println("Posto gia' assegnato");
+		Server.log("Posto gia' assegnato");
 		
 	}
 

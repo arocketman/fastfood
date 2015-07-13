@@ -14,7 +14,7 @@ public class PostoOccupato extends State{
 
 	@Override
 	public void assegnaPosto(Assegnazione assegnazione) {
-		System.out.println("Non posso assegnare un posto occupato.");
+		Server.log("Non posso assegnare un posto occupato.");
 		
 	}
 
@@ -28,7 +28,7 @@ public class PostoOccupato extends State{
 
 	@Override
 	public void confermaOccupazione() {
-		System.out.println("Posto gia' occupato.");
+		Server.log("Posto gia' occupato.");
 		
 	}
 

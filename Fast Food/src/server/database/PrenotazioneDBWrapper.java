@@ -91,7 +91,7 @@ public class PrenotazioneDBWrapper {
 			}else{
 				prenotazionePrecedenteDBWrapper.setPrenotazioneSuccessiva(this.getPrenotazioneSuccessiva());
 			}
-			System.out.println("["+this.getCodice()+"] updatePreview -> ["+prenotazionePrecedenteDBWrapper.getCodice()+"]");
+			//System.out.println("["+this.getCodice()+"] updatePreview -> ["+prenotazionePrecedenteDBWrapper.getCodice()+"]");
 			//apro la sessione e la transazione
 			SessionFactory sf = HibernateUtil.getSessionFactory();
 			Session session = sf.openSession();
@@ -118,7 +118,7 @@ public class PrenotazioneDBWrapper {
 			}else{
 				prenotazioneSuccessivaDBWrapper.setPrenotazionePrecedente(this.getPrenotazionePrecedente());
 			}
-			System.out.println("["+this.getCodice()+"] updateNext -> ["+prenotazioneSuccessivaDBWrapper.getCodice()+"]");
+			//System.out.println("["+this.getCodice()+"] updateNext -> ["+prenotazioneSuccessivaDBWrapper.getCodice()+"]");
 			//apro la sessione e la transazione
 			SessionFactory sf = HibernateUtil.getSessionFactory();
 			Session session = sf.openSession();
@@ -193,7 +193,7 @@ public class PrenotazioneDBWrapper {
 	}
 
 	public PrenotazioneDBWrapper update() {
-		System.out.println("["+this.getCodice()+"] update");
+		//.println("["+this.getCodice()+"] update");
 		this.updatePreview();
 		this.updateNext();
 		if(this.assegnazione!=null){

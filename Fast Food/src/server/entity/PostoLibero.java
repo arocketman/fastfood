@@ -1,5 +1,7 @@
 package server.entity;
 
+import server.Server;
+
 public class PostoLibero extends State{
 
 	public PostoLibero(Posto p) {
@@ -19,12 +21,12 @@ public class PostoLibero extends State{
 
 	@Override
 	public void rilasciaPosto() {
-		System.out.println("Posto gia' libero!");
+		Server.log("Posto gia' libero!");
 	}
 
 	@Override
 	public void confermaOccupazione() {
-		System.out.println("Posto non ancora assegnato!");
+		Server.log("Posto non ancora assegnato!");
 		
 	}
 

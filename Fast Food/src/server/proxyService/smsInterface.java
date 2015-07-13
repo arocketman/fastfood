@@ -1,14 +1,16 @@
 package server.proxyService;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import server.Server;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 
 public class smsInterface {
@@ -24,7 +26,7 @@ public class smsInterface {
 			url = new URL(serviceUrl);
 			conn = url.openConnection();//Apro la connessione verso l'url
 		} catch (IOException e ) {
-			System.out.println("Errore nella fase di connessione al servizio per gli SMS");
+			Server.log("Errore nella fase di connessione al servizio per gli SMS");
 			e.printStackTrace();
 			return null;
 		}
@@ -77,7 +79,7 @@ public class smsInterface {
 				return false;
 			}
 		} catch (Exception e) {
-			System.out.println("Errore nell'invio dell'SMS ");
+			Server.log("Errore nell'invio dell'SMS ");
 			e.printStackTrace();
 			return false;
 		}

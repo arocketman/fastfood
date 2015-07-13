@@ -1,13 +1,12 @@
 package clientIngresso.boundary;
 
 import clientIngresso.business_logic.IngressoBusinessLogic;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import server.Server;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -65,43 +64,22 @@ public class IngressoBoundary {
 		btnInviaRichiestaTavolo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				IngressoBusinessLogic ingressBusinessLogic = new IngressoBusinessLogic();
-				
-				//TODO: validazione dell'input
+
 				JsonParser parser = new JsonParser();
 				String returnedJson = ingressBusinessLogic.richiediTavolo((int) (comboBox.getSelectedItem()));
 				if(returnedJson != null){
 					JsonObject assegnazione = (JsonObject) parser.parse(returnedJson);
 
-					//Se ho ottenuto un'assegnazione vado a mostrare i suoi contenuti sul clientPosto.
-					/*Anto 11/07/2015
-					JLabel lblCodiceAssegnazione = new JLabel("Codice di assegnazione : " + assegnazione.get("assegnazione"));
-					lblCodiceAssegnazione.setAlignmentX(Component.CENTER_ALIGNMENT);
-					frame.getContentPane().add(lblCodiceAssegnazione);
-
-					JLabel lblNumTavolo = new JLabel("Numero Tavolo : " + assegnazione.get("tavolo"));
-					lblNumTavolo.setAlignmentX(Component.CENTER_ALIGNMENT);
-					frame.getContentPane().add(lblNumTavolo);
-					*/
-					
 					String posti = "";
 					for(JsonElement posto : assegnazione.getAsJsonArray("posti")){
 						posti += posto.getAsJsonObject().get("codice").toString() + ",";
 					}
 					posti=posti.substring(0, posti.length()-1);
-					/*Anto 11/07/2015
-					JLabel lblCodPosti = new JLabel("Posti: " + posti);
-					lblCodPosti.setAlignmentX(Component.CENTER_ALIGNMENT);
-					frame.getContentPane().add(lblCodPosti);		
-					frame.revalidate();
-					frame.repaint();
-					*/
-					
-					//Anto 11/07/2015
+
 					String responseMsg="";
 					responseMsg+="Codice di assegnazione : " + assegnazione.get("assegnazione") + "<br>";
 					responseMsg+="Numero Tavolo : " + assegnazione.get("tavolo")+ "<br>";
 					responseMsg+="Posti: " + posti  + "<br>";
-					//System.out.println(responseMsg);
 					DialogShowResponse dialogShowResponse=new DialogShowResponse("<html>"+responseMsg+"</html>");
 					dialogShowResponse.setVisible(true);
 
@@ -109,9 +87,7 @@ public class IngressoBoundary {
 				else{
 					
 					//Se non ho ottenuto un'assegnazione avvio il form di prenotazione
-					
-					//Anto 11/07/2015
-					//JLabel lblPostiDisponibili = new JLabel("Non sono presenti posti al momento. Avvio prenotazione..");
+
 					EventQueue.invokeLater(new Runnable() {
 						public void run() {
 							try {
@@ -122,12 +98,6 @@ public class IngressoBoundary {
 							}
 						}
 					});
-					/*Anto 11/07/2015
-					lblPostiDisponibili.setAlignmentX(Component.CENTER_ALIGNMENT);
-					frame.getContentPane().add(lblPostiDisponibili);
-					frame.revalidate();
-					frame.repaint();
-					*/
 				}
 				
 			}
@@ -208,10 +178,6 @@ public class IngressoBoundary {
             btnInserisciPrenotazione = new JButton("Inserisci prenotazione");
             btnInserisciPrenotazione.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg0) {
-                	//Anto 11/07/2015    - Devo controllare gli input inseriti
-                	/*	Cognome: non deve contenere numeri
-                	 * 	Numero di telefono non deve contenere lettere e deve essere precisamente di lunghezza 10
-                	 */
                 	
                 	String Cognome=textFieldCognome.getText();
                 	String TelNumber=textFieldTelefono.getText();
@@ -237,25 +203,14 @@ public class IngressoBoundary {
                 	
                     IngressoBusinessLogic ingressoBusinessLogic = new IngressoBusinessLogic();
                     if(ingressoBusinessLogic.inserisciPrenotazione(textFieldCognome.getText(), textFieldTelefono.getText(), numPosti)){
-                        
-    					//Anto 11/07/2015
+
     					String responseMsg="Prenotazione effettuata ";
-    					//System.out.println(responseMsg);
     					DialogShowResponse dialogShowResponse=new DialogShowResponse("<html>"+responseMsg+"</html>",frame);
     					dialogShowResponse.setVisible(true);
-    					
-    					/*Anto 11/07/2015
-                    	JLabel lblOkayPrenotazione = new JLabel("Prenotazione effettuata ");
-                        lblOkayPrenotazione.setAlignmentX(Component.CENTER_ALIGNMENT);
-                        frame.getContentPane().add(lblOkayPrenotazione);
-                        frame.revalidate();
-                        frame.repaint();
-                        frame.setVisible(false);
-                        */
                         
                     }
                     else{
-                        System.out.println("errore prenotazione");
+                        Server.log("errore prenotazione");
                     }
                 }
             });
