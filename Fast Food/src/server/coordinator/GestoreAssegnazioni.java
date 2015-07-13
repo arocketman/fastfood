@@ -31,7 +31,7 @@ public class GestoreAssegnazioni {
 		//Avvio timer all'assegnazione.
 		for(Posto p : posti){
 			TimerCinqueMinuti timer = new TimerCinqueMinuti(p.getCodice());
-			timer.schedule(new TimerCinqueMinutiTask(p,gestoreTavoli,controller), 60000);
+			timer.schedule(new TimerCinqueMinutiTask(p,gestoreTavoli,controller), 300000);
 			synchronized(timers){
 				timers.add(timer);
 			}

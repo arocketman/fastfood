@@ -14,7 +14,7 @@ import java.net.URLConnection;
 
 
 public class smsInterface {
-	private static String uname="psssFastFood@gmail.com";
+	private static String uname="psssFastFood2@gmail.com";
 	private static String pword="psssFastFood10";
 	private static String from="FastFood";
 	private static String serviceUrl="https://api.txtlocal.com/send/?";

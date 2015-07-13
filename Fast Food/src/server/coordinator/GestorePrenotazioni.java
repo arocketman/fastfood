@@ -75,14 +75,11 @@ public class GestorePrenotazioni {
 		//Aggiorno il db.
 		for(PrenotazioneDBWrapper prenotazioneDBWrapper : PrenotazioneDBWrapper.findAll()){
 			Prenotazione prenotazione = new Prenotazione(prenotazioneDBWrapper.getCodice(),prenotazioneDBWrapper.getCognome(),prenotazioneDBWrapper.getTelefono(),prenotazioneDBWrapper.getNumeroPosti());
-			Server.log("Refresh della prenotazione : " + prenotazioneDBWrapper.getCodice());
 			if(prenotazioneDBWrapper.getPrenotazionePrecedente()!=null){
 				prenotazione.setPrenotazionePrecedente(new Prenotazione(prenotazioneDBWrapper.getPrenotazionePrecedente().getCodice()));
-				Server.log("Refresh prenotazioni in corso, prenotazionePrecedente: " + prenotazione.getPrenotazionePrecedente().getCodice());
 			}
 			if(prenotazioneDBWrapper.getPrenotazioneSuccessiva()!=null){
 				prenotazione.setPrenotazioneSuccessiva(new Prenotazione(prenotazioneDBWrapper.getPrenotazioneSuccessiva().getCodice()));
-				Server.log("refresh prenotazioneSuccessiva: " + prenotazione.getPrenotazioneSuccessiva().getCodice());
 			}
 			
 			//Prendo solo le prenotazioni non assegnate.
@@ -101,13 +98,10 @@ public class GestorePrenotazioni {
 				}
 			}
 			prenotazioni.add(primaPrenotazione);
-			Server.log("Riordino Aggiunto:"+primaPrenotazione.getCodice());
 			prenot=primaPrenotazione;
 			while(prenot.getPrenotazioneSuccessiva()!=null){
-				Server.log("Riordino:" + prenot.getCodice());
 				prenot=prenot.getPrenotazioneSuccessiva();
 				prenotazioni.add(prenot);
-				Server.log("Riordino Aggiunto:" + prenot.getCodice());
 			}
 		}
 		
