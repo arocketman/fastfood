@@ -1,12 +1,13 @@
 package clientIngresso.boundary;
 
 import clientIngresso.business_logic.IngressoBusinessLogic;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import server.Server;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -210,7 +211,7 @@ public class IngressoBoundary {
                         
                     }
                     else{
-                        Server.log("errore prenotazione");
+                        System.out.println("errore prenotazione");
                     }
                 }
             });
