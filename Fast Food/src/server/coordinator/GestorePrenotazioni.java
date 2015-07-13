@@ -7,6 +7,10 @@ import server.entity.Prenotazione;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
 public class GestorePrenotazioni {
 
@@ -17,25 +21,99 @@ public class GestorePrenotazioni {
 		String codiceAlfaNumerico = new BigInteger(130, random).toString(32).substring(0,5);
 		Prenotazione prenotazione = new Prenotazione(codiceAlfaNumerico,cognome,telefono,numPosti);
 		prenotazioni.add(prenotazione);
+		ListIterator listIteratorPrenotazioni=prenotazioni.listIterator(prenotazioni.indexOf(prenotazione));
+		Prenotazione prenotazionePrecedente=null;
+		System.out.println("InseritaPrenotazione:"+prenotazione.getCodice());
+		if(listIteratorPrenotazioni.hasPrevious()){
+			prenotazionePrecedente=(Prenotazione)listIteratorPrenotazioni.previous();
+			System.out.println(" prenotazionePrecedente:"+prenotazionePrecedente+"-InserisciPrenotazione");
+		}	
+		
+		prenotazione.setPrenotazionePrecedente(prenotazionePrecedente);
+		prenotazione.setPrenotazioneSuccessiva(null);
 		return prenotazione.salva() != null;
 	}
 
 	public synchronized void assegnaPrenotazione(String codicePrenotazione , String codiceAssegnazione){
 		PrenotazioneDBWrapper prenotazioneDBWrapper = new PrenotazioneDBWrapper(codicePrenotazione);
 		prenotazioneDBWrapper.setAssegnazione(new AssegnazioneDBWrapper(codiceAssegnazione));
+		
+		int index=-1;
+		for(Prenotazione prenotazione:prenotazioni){
+			if(prenotazione.getCodice()==codicePrenotazione){
+				index=prenotazioni.indexOf(prenotazione);
+			}
+		}
+		System.out.println("AssegnazionePrenotazione:"+codicePrenotazione+" position:"+index);
+		if(index!=-1){
+			ListIterator listIteratorPrenotazioni=prenotazioni.listIterator(index);
+			Prenotazione prenotazionePrecedente=null;
+			if(listIteratorPrenotazioni.hasPrevious()){
+				prenotazionePrecedente=(Prenotazione)listIteratorPrenotazioni.previous();
+				listIteratorPrenotazioni.next();
+			}
+			Prenotazione prenotazioneSuccessiva=null;
+			if(listIteratorPrenotazioni.hasNext()){
+				listIteratorPrenotazioni.next();
+				if(listIteratorPrenotazioni.hasNext()){
+					prenotazioneSuccessiva=(Prenotazione)listIteratorPrenotazioni.next();
+				}
+			}
+			if(prenotazionePrecedente!=null){
+				prenotazioneDBWrapper.setPrenotazionePrecedente(new PrenotazioneDBWrapper(prenotazionePrecedente.getCodice()));
+				System.out.println("prenotazionePrecedente:"+prenotazionePrecedente.getCodice());
+			}
+			if(prenotazioneSuccessiva!=null){
+				prenotazioneDBWrapper.setPrenotazioneSuccessiva(new PrenotazioneDBWrapper(prenotazioneSuccessiva.getCodice()));		
+				System.out.println("prenotazioneSuccessiva:"+prenotazioneSuccessiva.getCodice());
+			}	
+		}
 		prenotazioneDBWrapper.update();
 		prenotazioni.clear();
+		
 	}
 
 	public synchronized void refreshDB(){
+		ArrayList<Prenotazione> buffPrenotazioni = new ArrayList<>();
 		//Aggiorno il db.
 		for(PrenotazioneDBWrapper prenotazioneDBWrapper : PrenotazioneDBWrapper.findAll()){
 			Prenotazione prenotazione = new Prenotazione(prenotazioneDBWrapper.getCodice(),prenotazioneDBWrapper.getCognome(),prenotazioneDBWrapper.getTelefono(),prenotazioneDBWrapper.getNumeroPosti());
+			System.out.println("refresh :"+prenotazioneDBWrapper.getCodice());
+			if(prenotazioneDBWrapper.getPrenotazionePrecedente()!=null){
+				prenotazione.setPrenotazionePrecedente(new Prenotazione(prenotazioneDBWrapper.getPrenotazionePrecedente().getCodice()));
+				System.out.println("refresh prenotazionePrecedente:"+prenotazione.getPrenotazionePrecedente().getCodice());
+			}
+			if(prenotazioneDBWrapper.getPrenotazioneSuccessiva()!=null){
+				prenotazione.setPrenotazioneSuccessiva(new Prenotazione(prenotazioneDBWrapper.getPrenotazioneSuccessiva().getCodice()));
+				System.out.println("refresh prenotazioneSuccessiva:"+prenotazione.getPrenotazioneSuccessiva().getCodice());
+			}
+			
 			//Prendo solo le prenotazioni non assegnate.
-			if(prenotazioneDBWrapper.getAssegnazione() == null)
-				prenotazioni.add(prenotazione);
+			if(prenotazioneDBWrapper.getAssegnazione() == null){
+				buffPrenotazioni.add(prenotazione);
+			}
+				
 		}
-
+		if(buffPrenotazioni.size()>0){
+			//A questo punto devo ordinare prenotazioni
+			Prenotazione primaPrenotazione = null;
+			Prenotazione prenot = null;
+			for(Prenotazione pren : buffPrenotazioni){
+				if(pren.getPrenotazionePrecedente()==null){
+					primaPrenotazione=pren;
+				}
+			}
+			prenotazioni.add(primaPrenotazione);
+			System.out.println("Riordino Aggiunto:"+primaPrenotazione.getCodice());
+			prenot=primaPrenotazione;
+			while(prenot.getPrenotazioneSuccessiva()!=null){
+				System.out.println("Riordino:"+prenot.getCodice());
+				prenot=prenot.getPrenotazioneSuccessiva();
+				prenotazioni.add(prenot);
+				System.out.println("Riordino Aggiunto:"+prenot.getCodice());
+			}
+		}
+		
 	}
 
 	public boolean occupaPostoCodPrenotazione(String codicePrenotazione, String codiceAssegnazione) {

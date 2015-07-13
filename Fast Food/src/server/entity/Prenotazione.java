@@ -9,6 +9,8 @@ public class Prenotazione  {
 	String cognome;
 	int numeroPosti;
 	Assegnazione assegnazione;
+	Prenotazione prenotazioneSuccessiva;
+	Prenotazione prenotazionePrecedente;
 
 	/**
 	 * Crea una nuova prenotazione. Non interagisce con il DB.
@@ -34,7 +36,12 @@ public class Prenotazione  {
 		this.telefono = dbWrapper.getTelefono();
 		this.cognome = dbWrapper.getCognome();
 		this.numeroPosti = dbWrapper.getNumeroPosti();
-		this.assegnazione = new Assegnazione(dbWrapper.getAssegnazione().getCodiceAssegnazionePosti());
+		if(this.assegnazione != null)
+			this.assegnazione = new Assegnazione(dbWrapper.getAssegnazione().getCodiceAssegnazionePosti());
+		if(this.prenotazioneSuccessiva != null)
+			this.prenotazioneSuccessiva = new Prenotazione(dbWrapper.getPrenotazioneSuccessiva().getCodice());
+		if(this.prenotazionePrecedente != null)
+			this.prenotazionePrecedente = new Prenotazione(dbWrapper.getPrenotazionePrecedente().getCodice());
 	}
 
 	/**
@@ -48,6 +55,10 @@ public class Prenotazione  {
 		this.cognome = dbWrapper.getCognome();
 		this.numeroPosti = dbWrapper.getNumeroPosti();
 		this.assegnazione = assegnazione;
+		if(this.prenotazioneSuccessiva != null)
+			this.prenotazioneSuccessiva = new Prenotazione(dbWrapper.getPrenotazioneSuccessiva().getCodice());
+		if(this.prenotazionePrecedente != null)
+			this.prenotazionePrecedente = new Prenotazione(dbWrapper.getPrenotazionePrecedente().getCodice());
 	}
 
 	public String getCodice() {
@@ -94,6 +105,10 @@ public class Prenotazione  {
 		dbWrapper.setTelefono(telefono);
 		dbWrapper.setNumeroPosti(numeroPosti);
 		dbWrapper.setCognome(cognome);
+		if(this.prenotazioneSuccessiva != null)
+			dbWrapper.setPrenotazioneSuccessiva(new PrenotazioneDBWrapper(prenotazioneSuccessiva.getCodice()));
+		if(this.prenotazionePrecedente != null)
+			dbWrapper.setPrenotazionePrecedente(new PrenotazioneDBWrapper(prenotazionePrecedente.getCodice()));
 		dbWrapper.salva();
 		return this;
 	}
@@ -104,5 +119,21 @@ public class Prenotazione  {
 
 	public void setAssegnazione(Assegnazione assegnazione) {
 		this.assegnazione = assegnazione;
+	}
+
+	public Prenotazione getPrenotazioneSuccessiva() {
+		return prenotazioneSuccessiva;
+	}
+
+	public void setPrenotazioneSuccessiva(Prenotazione prenotazioneSuccessiva) {
+		this.prenotazioneSuccessiva = prenotazioneSuccessiva;
+	}
+
+	public Prenotazione getPrenotazionePrecedente() {
+		return prenotazionePrecedente;
+	}
+
+	public void setPrenotazionePrecedente(Prenotazione prenotazionePrecedente) {
+		this.prenotazionePrecedente = prenotazionePrecedente;
 	}
 }

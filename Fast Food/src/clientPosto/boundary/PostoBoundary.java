@@ -132,8 +132,8 @@ public class PostoBoundary {
 			public void actionPerformed(ActionEvent e) {
 				PostoBusinessLogic postoBusinessLogic = new PostoBusinessLogic();
 				if (postoBusinessLogic.liberaPosto(codicePosto, numeroTavolo))
-					//framePostoAssegnazione.dispose();
-					System.exit(0);
+					framePostoAssegnazione.dispose();
+					//System.exit(0);
 			}
 		});
 		framePostoAssegnazione.add(btnLiberaTavolo);
